@@ -1,0 +1,57 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+    StartScreen:
+    GameModeScreen:
+
+<BigButton@Button>:
+    font_size: 14
+    size_hint: (1, 0.33)
+
+<StartScreen>:
+    name: "start"
+    GridLayout:
+        cols: 1
+        Label:
+            text: '[color=66cd00][b]Welcome to the Irregular Verbs\n                training app![/b][/color]'
+            font_size: 16
+            markup: True
+        Label:
+            text: '[i]Choose the game mode:[/i]'
+            font_size: 16
+            size_hint: (1, 0.33)
+            markup: True
+        BigButton:
+            text: 'from Russian to English'
+            background_color: (0, 1, 1, 1)
+            on_release: app.root.current = "game_mode"
+        BigButton:
+            text: 'from English to Russian'
+            background_color: (0, 1, 0, 1)
+
+<GameModeScreen>:
+    name: "game_mode"
+    GridLayout:
+        cols: 1
+        Label:
+            text: '[i]How many words?[/i]'
+            font_size: 16
+            size_hint: (1, 0.33)
+            markup: True
+        BigButton:
+            text: 'Want to choose from the list!'
+            background_color: (0, 1, 1, 1)
+            on_release: app.root.current = "start"
+        BigButton:
+            text: '10'
+            background_color: (1, 0.2, 0.2, 1)
+            on_release: app.root.current = "start"
+        BigButton:
+            text: '20'
+            background_color: (1, 0, 0, 1)
+            on_release: app.root.current = "start"
+        BigButton:
+            text: '50'
+            background_color: (0.5, 0, 0, 1)
+            on_release: app.root.current = "start"
