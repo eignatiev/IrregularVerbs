@@ -2,6 +2,8 @@
   <dictionary name="Cherry">
     <words>
       <w>irregularverbs</w>
+      <w>kivy</w>
+      <w>screenmanager</w>
     </words>
   </dictionary>
 </component>

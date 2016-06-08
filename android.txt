@@ -1,0 +1,3 @@
+title=IrregularVerbs
+author=Egor
+orientation=portrait

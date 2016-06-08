@@ -25,7 +25,6 @@ ScreenManagement:
     size_hint: (1, 0.33)
 
 <StartScreen>:
-    on_enter: initial_preparation()
     GridLayout:
         cols: 1
         Label:
@@ -119,6 +118,7 @@ ScreenManagement:
         cols: 1
         id: game_field_layout
         Label:
+            id: high_label
             size_hint: (1, 0.1)
             text: '[color=66cd00][b]Fill all the blank fields![/b][/color]'
             font_size: 16
@@ -128,4 +128,3 @@ ScreenManagement:
             font_size: 24
             size_hint: (1, 0.1)
             markup: True
-

@@ -111,7 +111,6 @@ class WordsChoosingScreen(Screen):
             game_mode_sc_inst = GameModeScreen()
             return game_mode_sc_inst.set_words_list(lst, False)
         else:
-            print self.choose_words()
             self.ids.start_button.text = '[b][i]Choose something![/i][/b]'
             self.ids.start_button.font_size = 20
 
@@ -151,13 +150,9 @@ class WordsChoosingScreen(Screen):
 
 class GameFieldScreen(Screen):
     in_game_list = []
+    current_word_number = 0
 
-    def add_items(self):
-        self.ids.cur_word.text = '[b][color=ff0000]' + self.in_game_list[0] + '[/color][/b]'
-
-        eng_labels = ['Simple', 'Past Simple', 'Past Participle']
-        rus_label = ['Russian']
-
+    def add_widgets(self, names):
         button = Button(text='[b]next[/b]',
                         markup=True,
                         size_hint=(1, 0.1),
@@ -165,33 +160,50 @@ class GameFieldScreen(Screen):
                         background_color=(1, 0, 0, 1),
                         id="next_button",
                         on_release=self.next_word)
+        for name in names:
+            label = Label(id=name.lower() + '_label',
+                          size_hint=(1, 0.1),
+                          font_size=10,
+                          text=name,
+                          markup=True)
+            text_inp = TextInput(size_hint=(1, 0.15),
+                                 bold=True,
+                                 font_size=16,
+                                 markup=True,
+                                 id=name.lower() + '_text_inp')
+            self.ids.game_field_layout.add_widget(label)
+            self.ids.game_field_layout.add_widget(text_inp)
+        self.ids.game_field_layout.add_widget(button)
 
-        def add_widgets(names):
-            for name in names:
-                label = Label(id=name.lower() + '_label',
-                              size_hint=(1, 0.1),
-                              font_size=10,
-                              text=name,
-                              markup=True)
-
-                text_inp = TextInput(id=name.lower() + '_text_inp',
-                                     size_hint=(1, 0.15),
-                                     bold=True,
-                                     font_size=16,
-                                     markup=True)
-
-                self.ids.game_field_layout.add_widget(label)
-                self.ids.game_field_layout.add_widget(text_inp)
-            self.ids.game_field_layout.add_widget(button)
-
+    def add_items(self):
+        self.ids.cur_word.text = '[b][color=ff0000]' + \
+                                 self.in_game_list[self.current_word_number] + \
+                                 '[/color][/b]'
+        eng_labels = ['Simple', 'Past Simple', 'Past Participle']
+        rus_label = ['Russian']
         if MODE == 'rus_eng':
-            add_widgets(eng_labels)
+            self.add_widgets(eng_labels)
         elif MODE == 'eng_rus':
-            add_widgets(rus_label)
+            self.add_widgets(rus_label)
 
-    def next_word(self):
-        pass
+    def next_word(self, *a):
 
+        self.save_data()
+
+        self.current_word_number += 1
+        if self.current_word_number < len(self.in_game_list):
+            self.ids.cur_word.text = '[b][color=ff0000]' + \
+                                     self.in_game_list[self.current_word_number] + \
+                                     '[/color][/b]'
+            for each in [child for child in self.children[0].children]:
+                if isinstance(each, TextInput):
+                    each.text = ''
+        else:
+            # todo remove widgets
+            self.current_word_number = 0
+            App.get_running_app().root.current = 'StartScreen'
+
+    #  todo
     def save_data(self):
         pass
 
@@ -204,8 +216,6 @@ program = Builder.load_file("irregularverbs.kv")
 
 
 class IrregularVerbsApp(App):
-    from_to = ListProperty()
-
     def build(self):
         return program
 
