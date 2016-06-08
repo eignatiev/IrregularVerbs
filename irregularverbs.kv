@@ -1,16 +1,31 @@
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
 
 ScreenManagement:
+    id: screen_manager
     transition: FadeTransition()
     StartScreen:
+        name: "StartScreen"
+        id: start_screen
+        manager: screen_manager
     GameModeScreen:
+        name: "GameModeScreen"
+        id: game_mode_screen
+        manager: screen_manager
+    WordsChoosingScreen:
+        name: "WordsChoosingScreen"
+        id: words_choosing_screen
+        manager: screen_manager
+    GameFieldScreen:
+        name: "GameFieldScreen"
+        id: game_field_screen
+        manager: screen_manager
 
 <BigButton@Button>:
     font_size: 14
     size_hint: (1, 0.33)
 
 <StartScreen>:
-    name: "start"
+    on_enter: initial_preparation()
     GridLayout:
         cols: 1
         Label:
@@ -25,13 +40,13 @@ ScreenManagement:
         BigButton:
             text: 'from Russian to English'
             background_color: (0, 1, 1, 1)
-            on_release: app.root.current = "game_mode"
+            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
         BigButton:
             text: 'from English to Russian'
             background_color: (0, 1, 0, 1)
+            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('eng_rus')
 
 <GameModeScreen>:
-    name: "game_mode"
     GridLayout:
         cols: 1
         Label:
@@ -42,16 +57,75 @@ ScreenManagement:
         BigButton:
             text: 'Want to choose from the list!'
             background_color: (0, 1, 1, 1)
-            on_release: app.root.current = "start"
+            on_release: app.root.current = "WordsChoosingScreen"
         BigButton:
-            text: '10'
+            text: '10 random words'
             background_color: (1, 0.2, 0.2, 1)
-            on_release: app.root.current = "start"
+            on_press: app.in_game_list = root.set_words_list(10)
+            on_release: app.root.current = "GameFieldScreen"
         BigButton:
-            text: '20'
+            text: '20 random words'
             background_color: (1, 0, 0, 1)
-            on_release: app.root.current = "start"
+            on_press: app.in_game_list = root.set_words_list(20)
+            on_release: app.root.current = "GameFieldScreen"
         BigButton:
-            text: '50'
+            text: '50 random words'
             background_color: (0.5, 0, 0, 1)
-            on_release: app.root.current = "start"
+            on_press: app.in_game_list = root.set_words_list(50)
+            on_release: app.root.current = "GameFieldScreen"
+
+<WordsChoosingScreen>:
+    FloatLayout:
+        Label:
+            text: "From:"
+            size_hint: (0.5, 0.05)
+            pos_hint: {"x": 0, "top": 1}
+        Label:
+            text: "To:"
+            size_hint: (0.5, 0.05)
+            pos_hint: {"x": 0.5, "top": 1}
+        ScrollView:
+            size_hint: (0.5, 0.85)
+            pos_hint: {"x": 0, "top": 0.95}
+            GridLayout:
+                id: from_word
+                height: self.minimum_height
+                size_hint_y:  None
+                cols: 1
+        ScrollView:
+            size_hint: (0.5, 0.85)
+            pos_hint: {"x": 0.5, "top": 0.95}
+            GridLayout:
+                id: to_word
+                height: self.minimum_height
+                size_hint_y:  None
+                cols: 1
+        Button:
+            id: start_button
+            size_hint: (1, 0.1)
+            pos_hint: {"x": 0, "top": 0.1}
+            background_color: (0, 1, 0, 1)
+            font_size: 14
+            markup: True
+            text: "[i]Let's go![/i]"
+            on_release:
+                if root.set_words_list(root.choose_words()): app.root.current = "GameFieldScreen"; \
+                app.in_game_list = root.set_words_list(root.choose_words());
+
+<GameFieldScreen>:
+    on_enter:
+        root.in_game_list = app.in_game_list; root.add_items();
+    GridLayout:
+        cols: 1
+        id: game_field_layout
+        Label:
+            size_hint: (1, 0.1)
+            text: '[color=66cd00][b]Fill all the blank fields![/b][/color]'
+            font_size: 16
+            markup: True
+        Label:
+            id: cur_word
+            font_size: 24
+            size_hint: (1, 0.1)
+            markup: True
+

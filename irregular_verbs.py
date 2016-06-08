@@ -25,7 +25,7 @@ def main():
     print'\n'.join([word['Russian'] for word in words])
 
     '''Getting random words'''
-    def random_word(_number_of_words=len(words) - 1):
+    def random_word(_number_of_words=len(words)-1):
         return words[randint(0, _number_of_words)]
 
     '''Asking to input the answer'''
