@@ -148,6 +148,10 @@ class WordsChoosingScreen(Screen):
             self.ids.from_word.add_widget(from_button)
             self.ids.to_word.add_widget(to_button)
 
+    def on_leave(self):
+        self.ids.from_word.clear_widgets()
+        self.ids.to_word.clear_widgets()
+
 
 class GameFieldScreen(Screen):
     in_game_list = []
