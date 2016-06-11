@@ -30,11 +30,10 @@ class StartScreen(Screen):
         :param mode: toggles between English and Russian"""
         global WORDS, RUS_WORDS, ENG_WORDS
         WORDS = tuple()
-        with open('import.csv', 'rb') as f:
+        with open('import.csv', 'r') as f:
             reader = csv.DictReader(f)
             for row in reader:
                 WORDS += (row,)
-        print(WORDS)
 
         RUS_WORDS = []
         ENG_WORDS = []
@@ -63,6 +62,7 @@ class GameModeScreen(Screen):
     in_game_words = ListProperty()
 
     def set_words_list(self, n, random=True):
+        self.in_game_words = []
         if random:
             i = 0
             while i < n:
@@ -188,7 +188,6 @@ class GameFieldScreen(Screen):
             self.add_widgets(rus_label)
 
     def next_word(self, *a):
-
         self.save_data()
 
         self.current_word_number += 1
