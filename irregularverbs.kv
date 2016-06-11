@@ -115,16 +115,22 @@ ScreenManagement:
     on_enter:
         root.in_game_list = app.in_game_list; root.add_items();
     GridLayout:
-        cols: 1
-        id: game_field_layout
-        Label:
-            id: high_label
-            size_hint: (1, 0.1)
-            text: '[color=66cd00][b]Fill all the blank fields![/b][/color]'
-            font_size: 16
-            markup: True
-        Label:
-            id: cur_word
-            font_size: 24
-            size_hint: (1, 0.1)
-            markup: True
+        cols:1
+        GridLayout:
+            cols: 1
+            size_hint: (1, 0.3)
+            Label:
+                id: high_label
+                size_hint: (1, 0.1)
+                text: '[color=66cd00][b]Fill all the blank fields![/b][/color]'
+                font_size: 16
+                markup: True
+            Label:
+                id: cur_word
+                font_size: 24
+                size_hint: (1, 0.1)
+                markup: True
+        GridLayout:
+            cols: 1
+            size_hint: (1, 0.7)
+            id: game_field_layout

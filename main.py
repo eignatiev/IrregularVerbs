@@ -34,6 +34,7 @@ class StartScreen(Screen):
             reader = csv.DictReader(f)
             for row in reader:
                 WORDS += (row,)
+        print(WORDS)
 
         RUS_WORDS = []
         ENG_WORDS = []
@@ -199,8 +200,10 @@ class GameFieldScreen(Screen):
                 if isinstance(each, TextInput):
                     each.text = ''
         else:
-            # todo remove widgets
             self.current_word_number = 0
+
+            self.ids.game_field_layout.clear_widgets()
+
             App.get_running_app().root.current = 'StartScreen'
 
     #  todo
