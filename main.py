@@ -196,7 +196,7 @@ class GameFieldScreen(Screen):
 
     def add_items(self):
         self.set_cur_word_text()
-        eng_labels = ['Simple', 'Past Simple', 'Past Participle']
+        eng_labels = ['Present Simple', 'Past Simple', 'Past Participle']
         rus_label = ['Russian']
         if MODE == 'rus_eng':
             self.add_widgets(eng_labels)
@@ -212,7 +212,7 @@ class GameFieldScreen(Screen):
                 self.inp_past_part = child.text
             elif child.id == 'past simple_text_inp':
                 self.inp_past_simple = child.text
-            elif child.id == 'simple_text_inp':
+            elif child.id == 'present simple_text_inp':
                 self.inp_simple = child.text
         if self.inp_past_part and self.inp_past_simple and self.inp_simple:
             return True
