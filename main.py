@@ -156,13 +156,18 @@ class WordsChoosingScreen(Screen):
 class GameFieldScreen(Screen):
     in_game_list = []
     current_word_number = 0
+    # Text from text inputs
+    inp_rus = None
+    inp_simple = None
+    inp_past_simple = None
+    inp_past_part = None
 
     def add_widgets(self, names):
         button = Button(text='[b]next[/b]',
                         markup=True,
                         size_hint=(1, 0.1),
                         font_size=20,
-                        background_color=(1, 0, 0, 1),
+                        background_color=(0, 1, 0, 1),
                         id="next_button",
                         on_release=self.next_word)
         for name in names:
@@ -175,15 +180,22 @@ class GameFieldScreen(Screen):
                                  bold=True,
                                  font_size=16,
                                  markup=True,
-                                 id=name.lower() + '_text_inp')
+                                 id=name.lower() + '_text_inp',
+                                 on_touch_down=self.restore_but_text)
             self.ids.game_field_layout.add_widget(label)
             self.ids.game_field_layout.add_widget(text_inp)
         self.ids.game_field_layout.add_widget(button)
 
-    def add_items(self):
+    def set_cur_word_text(self):
         self.ids.cur_word.text = '[b][color=ff0000]' + \
                                  self.in_game_list[self.current_word_number] + \
                                  '[/color][/b]'
+
+    def restore_but_text(self, *a):
+        self.ids.game_field_layout.children[0].text = '[b]next[/b]'
+
+    def add_items(self):
+        self.set_cur_word_text()
         eng_labels = ['Simple', 'Past Simple', 'Past Participle']
         rus_label = ['Russian']
         if MODE == 'rus_eng':
@@ -191,23 +203,46 @@ class GameFieldScreen(Screen):
         elif MODE == 'eng_rus':
             self.add_widgets(rus_label)
 
-    def next_word(self, *a):
-        self.save_data()
-
-        self.current_word_number += 1
-        if self.current_word_number < len(self.in_game_list):
-            self.ids.cur_word.text = '[b][color=ff0000]' + \
-                                     self.in_game_list[self.current_word_number] + \
-                                     '[/color][/b]'
-            for each in [child for child in self.children[0].children]:
-                if isinstance(each, TextInput):
-                    each.text = ''
+    def inputs_are_filled(self):
+        for child in self.ids.game_field_layout.children:
+            if child.id == 'russian_text_inp' and child.text:
+                self.inp_rus = child.text
+                return True
+            if child.id == 'past participle_text_inp':
+                self.inp_past_part = child.text
+            elif child.id == 'past simple_text_inp':
+                self.inp_past_simple = child.text
+            elif child.id == 'simple_text_inp':
+                self.inp_simple = child.text
+        if self.inp_past_part and self.inp_past_simple and self.inp_simple:
+            return True
         else:
-            self.current_word_number = 0
+            self.inp_past_part = None
+            self.inp_past_simple = None
+            self.inp_simple = None
+            return False
 
-            self.ids.game_field_layout.clear_widgets()
+    def alert(self):
+        self.ids.game_field_layout.children[0].text = '[b]Fill all the fields![/b]'
 
-            App.get_running_app().root.current = 'StartScreen'
+    def next_word(self, *a):
+        if self.inputs_are_filled():
+            self.save_data()
+
+            self.current_word_number += 1
+            if self.current_word_number < len(self.in_game_list):
+                self.set_cur_word_text()
+                for each in [child for child in self.ids.game_field_layout.children]:
+                    if isinstance(each, TextInput):
+                        each.text = ''
+            else:
+                self.current_word_number = 0
+
+                self.ids.game_field_layout.clear_widgets()
+
+                App.get_running_app().root.current = 'StartScreen'
+        else:
+            self.alert()
 
     #  todo
     def save_data(self):
