@@ -211,6 +211,24 @@ class GameFieldScreen(Screen):
         elif MODE == 'eng_rus':
             self.add_widgets(rus_label)
 
+    def check_cur_words(self, _inp_rus=None, _inp_eng=None):
+        if _inp_rus:
+            _inp_rus = unicode(_inp_rus).encode('utf8')
+            if _inp_rus in self.current_word['Russian'].split('/'):
+                self.next_button.text = 'True'
+            else:
+                self.next_button.text = 'False'
+                self.next_button.background_color = (1, 0, 0, 1)
+        elif _inp_eng:
+            print(_inp_eng)
+            if _inp_eng['Past Simple'] == self.current_word['PastSimple'] and \
+               _inp_eng['Past Participle'] == self.current_word['PastParticiple'] and \
+               _inp_eng['Present Simple'] == self.current_word['Simple']:
+                self.next_button.text = 'True'
+            else:
+                self.next_button.text = 'False'
+                self.next_button.background_color = (1, 0, 0, 1)
+
     def inputs_are_filled(self):
         for child in self.ids.game_field_layout.children:
             if child.id == 'russian_text_inp' and child.text:
@@ -234,23 +252,8 @@ class GameFieldScreen(Screen):
         self.next_button.text = '[b]Fill all the fields![/b]'
         self.next_button.background_color = (0, 1, 0, 1)
 
-    def check_cur_words(self, _inp_rus=None, _inp_eng=None):
-        if _inp_rus:
-            _inp_rus = unicode(_inp_rus).encode('utf8')
-            if _inp_rus in self.current_word['Russian'].split('/'):
-                self.next_button.text = 'True'
-            else:
-                self.next_button.text = 'False'
-                self.next_button.background_color = (1, 0, 0, 1)
-        elif _inp_eng:
-            print(_inp_eng)
-            if _inp_eng['Past Simple'] == self.current_word['PastSimple'] and \
-               _inp_eng['Past Participle'] == self.current_word['PastParticiple'] and \
-               _inp_eng['Present Simple'] == self.current_word['Simple']:
-                self.next_button.text = 'True'
-            else:
-                self.next_button.text = 'False'
-                self.next_button.background_color = (1, 0, 0, 1)
+    def save_data(self):
+        pass
 
     def next_word(self, *a):
         if self.inputs_are_filled():
@@ -271,9 +274,9 @@ class GameFieldScreen(Screen):
         else:
             self.alert()
 
-    # todo
-    def save_data(self):
-        pass
+
+class FinalScreen(Screen):
+    pass
 
 
 class ScreenManagement(ScreenManager):
