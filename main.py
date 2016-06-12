@@ -6,7 +6,7 @@ import csv
 from kivy.app import App
 from kivy.clock import mainthread
 from kivy.lang import Builder
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
@@ -66,7 +66,7 @@ class GameModeScreen(Screen):
         if random:
             i = 0
             while i < n:
-                random_word = WORDS_LIST[randint(0, len(WORDS_LIST) - 1)]
+                random_word = WORDS[randint(0, len(WORDS) - 1)]
                 if random_word in self.in_game_words:
                     continue
                 else:
@@ -74,7 +74,7 @@ class GameModeScreen(Screen):
                     i += 1
         elif not random:
             for i in xrange(min(n), max(n)):
-                self.in_game_words.append(WORDS_LIST[i])
+                self.in_game_words.append(WORDS[i])
         return self.in_game_words
 
 
@@ -156,11 +156,11 @@ class WordsChoosingScreen(Screen):
 class GameFieldScreen(Screen):
     in_game_list = []
     current_word_number = 0
+    current_word = {}
     # Text from text inputs
     inp_rus = None
-    inp_simple = None
-    inp_past_simple = None
-    inp_past_part = None
+    inp_eng = {}
+    next_button = ObjectProperty()
 
     def add_widgets(self, names):
         button = Button(text='[b]next[/b]',
@@ -181,18 +181,26 @@ class GameFieldScreen(Screen):
                                  font_size=16,
                                  markup=True,
                                  id=name.lower() + '_text_inp',
-                                 on_touch_down=self.restore_but_text)
+                                 on_touch_down=self.restore_but)
             self.ids.game_field_layout.add_widget(label)
             self.ids.game_field_layout.add_widget(text_inp)
         self.ids.game_field_layout.add_widget(button)
+        self.next_button = self.ids.game_field_layout.children[0]
 
     def set_cur_word_text(self):
-        self.ids.cur_word.text = '[b][color=ff0000]' + \
-                                 self.in_game_list[self.current_word_number] + \
-                                 '[/color][/b]'
+        self.current_word = self.in_game_list[self.current_word_number]
+        if MODE == 'rus_eng':
+            self.ids.cur_word.text = '[b][color=ff0000]' + \
+                                     self.current_word['Russian'] + \
+                                     '[/color][/b]'
+        elif MODE == 'eng_rus':
+            self.ids.cur_word.text = '[b][color=ff0000]' + \
+                                     self.current_word['Simple'] + \
+                                     '[/color][/b]'
 
-    def restore_but_text(self, *a):
-        self.ids.game_field_layout.children[0].text = '[b]next[/b]'
+    def restore_but(self, *a):
+        self.next_button.text = '[b]next[/b]'
+        self.next_button.background_color = (0, 1, 0, 1)
 
     def add_items(self):
         self.set_cur_word_text()
@@ -206,24 +214,43 @@ class GameFieldScreen(Screen):
     def inputs_are_filled(self):
         for child in self.ids.game_field_layout.children:
             if child.id == 'russian_text_inp' and child.text:
-                self.inp_rus = child.text
+                self.inp_rus = child.text.strip()
+                self.check_cur_words(_inp_rus=self.inp_rus, _inp_eng=None)
                 return True
             if child.id == 'past participle_text_inp':
-                self.inp_past_part = child.text
+                self.inp_eng['Past Participle'] = child.text.strip()
             elif child.id == 'past simple_text_inp':
-                self.inp_past_simple = child.text
+                self.inp_eng['Past Simple'] = child.text.strip()
             elif child.id == 'present simple_text_inp':
-                self.inp_simple = child.text
-        if self.inp_past_part and self.inp_past_simple and self.inp_simple:
+                self.inp_eng['Present Simple'] = child.text.strip()
+        if self.inp_eng and all([value for key, value in self.inp_eng.iteritems()]):
+            self.check_cur_words(_inp_rus=None, _inp_eng=self.inp_eng)
             return True
         else:
-            self.inp_past_part = None
-            self.inp_past_simple = None
-            self.inp_simple = None
+            self.inp_eng = {}
             return False
 
     def alert(self):
-        self.ids.game_field_layout.children[0].text = '[b]Fill all the fields![/b]'
+        self.next_button.text = '[b]Fill all the fields![/b]'
+        self.next_button.background_color = (0, 1, 0, 1)
+
+    def check_cur_words(self, _inp_rus=None, _inp_eng=None):
+        if _inp_rus:
+            _inp_rus = unicode(_inp_rus).encode('utf8')
+            if _inp_rus in self.current_word['Russian'].split('/'):
+                self.next_button.text = 'True'
+            else:
+                self.next_button.text = 'False'
+                self.next_button.background_color = (1, 0, 0, 1)
+        elif _inp_eng:
+            print(_inp_eng)
+            if _inp_eng['Past Simple'] == self.current_word['PastSimple'] and \
+               _inp_eng['Past Participle'] == self.current_word['PastParticiple'] and \
+               _inp_eng['Present Simple'] == self.current_word['Simple']:
+                self.next_button.text = 'True'
+            else:
+                self.next_button.text = 'False'
+                self.next_button.background_color = (1, 0, 0, 1)
 
     def next_word(self, *a):
         if self.inputs_are_filled():
@@ -244,7 +271,7 @@ class GameFieldScreen(Screen):
         else:
             self.alert()
 
-    #  todo
+    # todo
     def save_data(self):
         pass
 
