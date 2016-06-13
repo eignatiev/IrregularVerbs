@@ -16,13 +16,6 @@ from random import randint
 
 __version__ = "1.0"
 
-""" Irregular verbs training program
-    1. Запрос - русский инфинитив, ответ - все формы
-    2. Запрос - английский инфинитив, ответ - русский инфинитив
-    3. Выбор промежутков слов из списка с помощью двух выпадашек RANDOM
-    4. 10, 20, 50 случайных слов RANDOM
-"""
-
 
 class StartScreen(Screen):
     @staticmethod
@@ -35,23 +28,17 @@ class StartScreen(Screen):
             reader = csv.DictReader(f)
             for row in reader:
                 WORDS += (row,)
-
         RUS_WORDS = []
         ENG_WORDS = []
-
         for i in range(len(WORDS)):
             rus_text = WORDS[i]['Russian']
             RUS_WORDS.append(rus_text)
-
             eng_text = WORDS[i]['Simple']
             ENG_WORDS.append(eng_text)
-
         RUS_WORDS = tuple(RUS_WORDS)
         ENG_WORDS = tuple(ENG_WORDS)
-
         global MODE
         MODE = mode
-
         global WORDS_LIST
         if MODE == 'rus_eng':
             WORDS_LIST = RUS_WORDS
@@ -91,7 +78,6 @@ class WordsChoosingScreen(Screen):
         self.ListButton = MyButton
 
     def choose_words(self):
-
         x1, x2 = None, None
         for i in self.ids.from_word.children:
             if i.state == 'down':
@@ -99,7 +85,6 @@ class WordsChoosingScreen(Screen):
         for i in self.ids.to_word.children:
             if i.state == 'down':
                 x2 = WORDS_LIST.index(i.text)
-
         if x1 is not None and x2 is not None:
             # Choosing the sub-list
             if x1 < x2:
@@ -118,18 +103,14 @@ class WordsChoosingScreen(Screen):
 
     @mainthread
     def on_enter(self):
-
         if MODE == 'rus_eng':
             lang = 'Russian'
         else:
             lang = 'Simple'
-
         for i in xrange(len(WORDS)):
             text = WORDS[i][lang]
-
             from_group = "from_group"
             to_group = "to_group"
-
             from_button = MyButton(text=text,
                                    size_hint_y=None,
                                    font_size=10,
@@ -137,7 +118,6 @@ class WordsChoosingScreen(Screen):
                                    background_color=(0, 1, 1, 1),
                                    group=from_group,
                                    id="from_button" + str(i))
-
             to_button = MyButton(text=text,
                                  size_hint_y=None,
                                  font_size=10,
@@ -145,7 +125,6 @@ class WordsChoosingScreen(Screen):
                                  background_color=(0, 1, 1, 1),
                                  group=to_group,
                                  id="to_button" + str(i))
-
             self.ids.from_word.add_widget(from_button)
             self.ids.to_word.add_widget(to_button)
 
@@ -221,7 +200,7 @@ class GameFieldScreen(Screen):
     def check_cur_words(self, _inp_rus=None, _inp_eng=None):
         data_to_be_saved = {}
         if _inp_rus:
-            _inp_rus = unicode(_inp_rus).encode('utf8')
+            _inp_rus = (unicode(_inp_rus).encode('utf8'))
             data_to_be_saved['Should_be'] = self.current_word['Russian']
             data_to_be_saved['Inputted'] = _inp_rus
             data_to_be_saved['Initial'] = self.current_word['Simple']
@@ -246,7 +225,7 @@ class GameFieldScreen(Screen):
                 data_to_be_saved['Is_correct1'] = True
             else:
                 data_to_be_saved['Is_correct1'] = False
-            if _inp_eng['Past Simple'] == self.current_word['PastSimple']:
+            if _inp_eng['Past Simple'] in self.current_word['PastSimple'].split('/'):
                 data_to_be_saved['Is_correct2'] = True
             else:
                 data_to_be_saved['Is_correct2'] = False
@@ -267,15 +246,15 @@ class GameFieldScreen(Screen):
     def inputs_are_filled(self):
         for child in self.ids.game_field_layout.children:
             if child.id == 'russian_text_inp' and child.text:
-                self.inp_rus = child.text.strip()
+                self.inp_rus = child.text.strip().lower()
                 self.check_cur_words(_inp_rus=self.inp_rus, _inp_eng=None)
                 return True
             if child.id == 'past participle_text_inp':
-                self.inp_eng['Past Participle'] = child.text.strip()
+                self.inp_eng['Past Participle'] = child.text.strip().lower()
             elif child.id == 'past simple_text_inp':
-                self.inp_eng['Past Simple'] = child.text.strip()
+                self.inp_eng['Past Simple'] = child.text.strip().lower()
             elif child.id == 'present simple_text_inp':
-                self.inp_eng['Present Simple'] = child.text.strip()
+                self.inp_eng['Present Simple'] = child.text.strip().lower()
         if self.inp_eng and all([value for key, value in self.inp_eng.iteritems()]):
             self.check_cur_words(_inp_rus=None, _inp_eng=self.inp_eng)
             return True
@@ -298,6 +277,7 @@ class GameFieldScreen(Screen):
             else:
                 self.current_word_number = 0
                 self.true_percent = int(self.true_counter / (len(self.in_game_list) / 100.0))
+                self.true_counter = 0
                 FinalScreen.percent = self.true_percent
                 self.ids.game_field_layout.clear_widgets()
                 App.get_running_app().root.current = 'FinalScreen'
@@ -348,7 +328,6 @@ class FinalScreen(Screen):
         self.saved_data = GameFieldScreen.saved_data
         self.add_result(self.percent)
         white_color = True
-        print(self.saved_data)
 
         def to_green(text):
             return '[color=009900]' + text
@@ -408,6 +387,7 @@ class FinalScreen(Screen):
                     label_3 = BeigeLabel(text=item['Inputted'])
                     self.ids.final_table.add_widget(label_3)
                     white_color = True
+        GameFieldScreen.saved_data = []
 
 
 class ScreenManagement(ScreenManager):
