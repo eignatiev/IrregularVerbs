@@ -12,8 +12,9 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.togglebutton import ToggleButton
-
 from random import randint
+
+__version__ = "1.0"
 
 """ Irregular verbs training program
     1. Запрос - русский инфинитив, ответ - все формы
