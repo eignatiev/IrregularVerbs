@@ -28,6 +28,36 @@ ScreenManagement:
     font_size: 14
     size_hint: (1, 0.33)
 
+<GreenLabel>:
+    height: '50sp'
+    size_hint_y: None
+    canvas.before:
+        Color:
+            rgb: 0, 102/256.0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<YellowLabel>:
+    height: '50sp'
+    size_hint_y: None
+    canvas.before:
+        Color:
+            rgb: 204/256.0, 204/256.0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<RedLabel>:
+    height: '50sp'
+    size_hint_y: None
+    canvas.before:
+        Color:
+            rgb: 255/256.0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
 <StartScreen>:
     GridLayout:
         cols: 1
@@ -47,7 +77,7 @@ ScreenManagement:
         BigButton:
             text: 'from English to Russian'
             background_color: (0, 1, 0, 1)
-            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('eng_rus')
+            on_release: app.root.current = "FinalScreen"; root.initial_preparation('eng_rus')
 
 <GameModeScreen>:
     GridLayout:
@@ -139,4 +169,22 @@ ScreenManagement:
             size_hint: (1, 0.7)
             id: game_field_layout
 
-<FinalScreen>
+<FinalScreen>:
+    on_enter: root.add_table_items()
+    ScrollView:
+        size_hint: (1, 0.9)
+        pos_hint: {"x": 0, "top": 1}
+        GridLayout:
+            cols: 3
+            id: final_table
+            height: self.minimum_height
+            size_hint_y: None
+    GridLayout:
+        size_hint: (1, 0.1)
+        pos_hint: {"x": 0, "top": 0.1}
+        cols: 2
+        Button:
+            text: 'Play again'
+            on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
+        Button:
+            text: 'Exit'

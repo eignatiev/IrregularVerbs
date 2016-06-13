@@ -5,6 +5,7 @@ import csv
 
 from kivy.app import App
 from kivy.clock import mainthread
+from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.button import Button
@@ -276,8 +277,39 @@ class GameFieldScreen(Screen):
             self.alert()
 
 
-class FinalScreen(Screen):
+class GreenLabel(Label):
     pass
+
+
+class YellowLabel(Label):
+    pass
+
+
+class RedLabel(Label):
+    pass
+
+
+class FinalScreen(Screen):
+    def labels_prep(self, widget, percent, common_noun):
+        self.ids.final_table.add_widget(widget(text='Your result:', bold=True))
+        self.ids.final_table.add_widget(widget(text=str(percent) + '%', bold=True))
+        self.ids.final_table.add_widget(widget(text=common_noun, bold=True))
+
+    def add_result(self, percent):
+        if percent >= 85:
+            self.labels_prep(GreenLabel, percent, 'BRAIN')
+        elif 60 < percent < 85:
+            self.labels_prep(YellowLabel, percent, 'MIDDLING')
+        else:
+            self.labels_prep(RedLabel, percent, 'MORON')
+
+    def add_table_items(self):
+        self.add_result(0)
+        for i in xrange(99):
+            label = Label(text=str(i),
+                          height="29sp",
+                          size_hint_y=None)
+            self.ids.final_table.add_widget(label)
 
 
 class ScreenManagement(ScreenManager):
