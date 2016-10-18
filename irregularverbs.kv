@@ -82,12 +82,19 @@ ScreenManagement:
             size: self.size
 
 <StartScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'background.png'
     GridLayout:
         cols: 1
         Label:
-            text: '[color=66cd00][b]Welcome to the Irregular Verbs\n                training app![/b][/color]'
-            font_size: 16
+            text: '[color=98e0ef]WELCOME\nTO THE IRREGULAR VERBS\ntraining app![/color]'
+            font_size: '26px'
+            font_name: 'Tahoma-Bold'
             markup: True
+            halign: 'center'
         Label:
             text: '[i]Choose the game mode:[/i]'
             font_size: 16

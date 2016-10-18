@@ -19,34 +19,33 @@ __version__ = "1.0"
 
 def main():
 
-    def initial_preparation(mode):
-        """Preparing the tuple of lists with all the words
-        :param mode: toggles between English and Russian"""
-        global WORDS, RUS_WORDS, ENG_WORDS
-        WORDS = tuple()
-        with open('import.csv', 'r') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                WORDS += (row,)
-        RUS_WORDS = []
-        ENG_WORDS = []
-        for i in range(len(WORDS)):
-            rus_text = WORDS[i]['Russian']
-            RUS_WORDS.append(rus_text)
-            eng_text = WORDS[i]['Simple']
-            ENG_WORDS.append(eng_text)
-        RUS_WORDS = tuple(RUS_WORDS)
-        ENG_WORDS = tuple(ENG_WORDS)
-        global MODE
-        MODE = mode
-        global WORDS_LIST
-        if MODE == 'rus_eng':
-            WORDS_LIST = RUS_WORDS
-        else:
-            WORDS_LIST = ENG_WORDS
-
     class StartScreen(Screen):
-        pass
+        @staticmethod
+        def initial_preparation(mode):
+            """Preparing the tuple of lists with all the words
+            :param mode: toggles between English and Russian"""
+            global WORDS, RUS_WORDS, ENG_WORDS
+            WORDS = tuple()
+            with open('import.csv', 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    WORDS += (row,)
+            RUS_WORDS = []
+            ENG_WORDS = []
+            for i in range(len(WORDS)):
+                rus_text = WORDS[i]['Russian']
+                RUS_WORDS.append(rus_text)
+                eng_text = WORDS[i]['Simple']
+                ENG_WORDS.append(eng_text)
+            RUS_WORDS = tuple(RUS_WORDS)
+            ENG_WORDS = tuple(ENG_WORDS)
+            global MODE
+            MODE = mode
+            global WORDS_LIST
+            if MODE == 'rus_eng':
+                WORDS_LIST = RUS_WORDS
+            else:
+                WORDS_LIST = ENG_WORDS
 
     class GameModeScreen(Screen):
         in_game_words = ListProperty()
