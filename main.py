@@ -144,44 +144,40 @@ def main():
         true_percent = 0
 
         def add_widgets(self, names):
-            button = Button(text='[b]next[/b]',
-                            markup=True,
-                            size_hint=(1, 0.1),
-                            font_size=20,
-                            background_color=(0, 1, 0, 1),
-                            id="next_button",
-                            on_release=self.next_word)
-            for name in names:
-                label = Label(id=name.lower() + '_label',
+            for name in [n.lower() for n in names]:
+                label = Label(id=name + '_label',
                               size_hint=(1, 0.1),
-                              font_size=10,
-                              text=name,
+                              font_size='16px',
+                              color=(120, 102, 102, 1),
+                              font_name='Tahoma-Regular',
+                              text='[color=e4cfcf]{}:[/color].'.format(name),
                               markup=True)
                 text_inp = TextInput(size_hint=(1, 0.15),
                                      bold=True,
-                                     font_size=16,
                                      markup=True,
-                                     id=name.lower() + '_text_inp',
+                                     id=name + '_text_inp',
                                      on_touch_down=self.restore_but)
                 self.ids.game_field_layout.add_widget(label)
                 self.ids.game_field_layout.add_widget(text_inp)
-            self.ids.game_field_layout.add_widget(button)
-            self.next_button = self.ids.game_field_layout.children[0]
+            self.next_button = self.ids.next_button
+            self.next_button.on_release = self.next_word
 
         def set_cur_word_text(self):
             self.current_word = self.in_game_list[self.current_word_number]
             if MODE == 'rus_eng':
-                self.ids.cur_word.text = '[b][color=ff0000]' + \
+                self.ids.cur_word.text = '[b][color=98e0ef]' + \
                                          self.current_word['Russian'] + \
                                          '[/color][/b]'
             elif MODE == 'eng_rus':
-                self.ids.cur_word.text = '[b][color=ff0000]' + \
+                self.ids.cur_word.text = '[b][color=98e0ef]' + \
                                          self.current_word['Simple'] + \
                                          '[/color][/b]'
 
         def restore_but(self, *a):
-            self.next_button.text = '[b]next[/b]'
-            self.next_button.background_color = (0, 1, 0, 1)
+            self.next_button.text = '[color=#d4dcd9][b]Next[/b][/color]'
+            self.next_button.font_size = '20px'
+            self.next_button.background_normal = ''
+            self.next_button.background_color = [34/255.0, 82/255.0, 102/255.0, 1]
 
         def add_items(self):
             self.set_cur_word_text()
@@ -203,12 +199,13 @@ def main():
                 data_to_be_saved['Inputted'] = _inp_rus
                 data_to_be_saved['Initial'] = self.current_word['Simple']
                 if _inp_rus in self.current_word['Russian'].split('/'):
-                    self.next_button.text = 'True'
+                    self.next_button.markup = True
+                    self.next_button.text = '[color=#419f6d]Correct[/color]'
                     data_to_be_saved['Is_correct'] = True
                     self.true_counter += 1
                 else:
-                    self.next_button.text = 'False'
-                    self.next_button.background_color = (1, 0, 0, 1)
+                    self.next_button.markup = True
+                    self.next_button.text = '[color=#da7878]Wrong[/color]'
                     data_to_be_saved['Is_correct'] = False
                 self.save_data(data_to_be_saved)
             elif _inp_eng:
@@ -234,11 +231,12 @@ def main():
                 if data_to_be_saved['Is_correct1'] and \
                         data_to_be_saved['Is_correct2'] and \
                         data_to_be_saved['Is_correct3']:
-                    self.next_button.text = 'True'
+                    self.next_button.markup = True
+                    self.next_button.text = '[color=#419f6d]Correct[/color]'
                     self.true_counter += 1
                 else:
-                    self.next_button.text = 'False'
-                    self.next_button.background_color = (1, 0, 0, 1)
+                    self.next_button.markup = True
+                    self.next_button.text = '[color=#da7878]Wrong[/color]'
                 self.save_data(data_to_be_saved)
 
         def inputs_are_filled(self):
@@ -261,8 +259,8 @@ def main():
                 return False
 
         def alert(self):
-            self.next_button.text = '[b]Fill all the fields![/b]'
-            self.next_button.background_color = (0, 1, 0, 1)
+            self.next_button.text = '[b]Fill all the blank fields![/b]'
+            self.next_button.font_size = '16px'
 
         def next_word(self, *a):
             if self.inputs_are_filled():

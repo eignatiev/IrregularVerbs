@@ -197,29 +197,32 @@ ScreenManagement:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'img/background.png'
+            source: 'img/background_dark.jpg'
     on_enter:
         root.in_game_list = app.in_game_list; root.add_items();
-    GridLayout:
-        cols:1
+    FloatLayout:
+        Label:
+            id: cur_word
+            font_size: 24
+            markup: True
+            size_hint: (None, None)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
         GridLayout:
             cols: 1
-            size_hint: (1, 0.3)
-            Label:
-                id: high_label
-                size_hint: (1, 0.1)
-                text: '[color=66cd00][b]Fill all the blank fields![/b][/color]'
-                font_size: 16
-                markup: True
-            Label:
-                id: cur_word
-                font_size: 24
-                size_hint: (1, 0.1)
-                markup: True
-        GridLayout:
-            cols: 1
-            size_hint: (1, 0.7)
+            size_hint: (1, 0.5)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             id: game_field_layout
+        Button:
+            id: next_button
+            text: '[color=#d4dcd9][b]Next[/b][/color]'
+            markup: True
+            font_size: '20px'
+            font_name: 'Tahoma-Bold'
+            background_normal: ''
+            background_color: [34/255.0, 82/255.0, 102/255.0, 1]
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': 0.5, 'y': 0}
+            on_release: root.next_word
 
 <FinalScreen>:
     on_enter: root.output_data()
