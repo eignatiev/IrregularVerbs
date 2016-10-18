@@ -28,7 +28,7 @@ ScreenManagement:
     font_size: 14
     size_hint: (1, 0.33)
 
-<StartScreenButton@Button>:
+<TransButton@Button>:
     markup: True
     font_size: '16px'
     font_name: 'Roboto-Bold'
@@ -110,40 +110,47 @@ ScreenManagement:
             markup: True
             size_hint: (None, None)
             pos_hint: {'center_x': 0.5, 'center_y': 0.70}
-        StartScreenButton:
+        TransButton:
             text: '[color=#98e0ef]from RUS to ENG[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
-        StartScreenButton:
+        TransButton:
             text: '[color=#98e0ef]from ENG to RUS[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.41}
             on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
 
 <GameModeScreen>:
-    GridLayout:
-        cols: 1
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/background.png'
+    FloatLayout:
         Label:
-            text: '[i]How many words?[/i]'
-            font_size: 16
-            size_hint: (1, 0.33)
+            text: '[color=98e0ef]How many words?[/color]'
+            font_size: '20px'
+            font_name: 'Tahoma-Bold'
             markup: True
-        BigButton:
-            text: 'Want to choose from the list!'
-            background_color: (0, 1, 1, 1)
+            halign: 'center'
+            size_hint: (None, None)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+        TransButton:
+            text: '[color=#98e0ef]Want to choose from the list![/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
             on_release: app.root.current = "WordsChoosingScreen"
-        BigButton:
-            text: '10 random words'
-            background_color: (1, 0.2, 0.2, 1)
+        TransButton:
+            text: '[color=#98e0ef]10 random words[/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.465}
             on_press: app.in_game_list = root.set_words_list(10)
             on_release: app.root.current = "GameFieldScreen"
-        BigButton:
-            text: '20 random words'
-            background_color: (1, 0, 0, 1)
+        TransButton:
+            text: '[color=#98e0ef]20 random words[/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.38}
             on_press: app.in_game_list = root.set_words_list(20)
             on_release: app.root.current = "GameFieldScreen"
-        BigButton:
-            text: '50 random words'
-            background_color: (0.5, 0, 0, 1)
+        TransButton:
+            text: '[color=#98e0ef]50 random words[/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.295}
             on_press: app.in_game_list = root.set_words_list(50)
             on_release: app.root.current = "GameFieldScreen"
 
@@ -186,6 +193,11 @@ ScreenManagement:
                 app.in_game_list = root.set_words_list(root.choose_words());
 
 <GameFieldScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/background.png'
     on_enter:
         root.in_game_list = app.in_game_list; root.add_items();
     GridLayout:
