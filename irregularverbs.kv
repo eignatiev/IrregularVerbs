@@ -28,6 +28,13 @@ ScreenManagement:
     font_size: 14
     size_hint: (1, 0.33)
 
+<StartScreenButton@Button>:
+    markup: True
+    font_size: '16px'
+    font_name: 'Roboto-Bold'
+    background_color: (0, 0, 0, 0.35)
+    size_hint: (1, 0.08)
+
 <GreenLabel>:
     height: '50sp'
     size_hint_y: None
@@ -86,28 +93,31 @@ ScreenManagement:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'background.png'
-    GridLayout:
-        cols: 1
+            source: 'design/iv/background.png'
+    FloatLayout:
         Label:
-            text: '[color=98e0ef]WELCOME\nTO THE IRREGULAR VERBS\ntraining app![/color]'
-            font_size: '26px'
+            text: '[color=#d8d8d8]Welcome to the[/color]\n[color=98e0ef]IRREGULAR VERBS[/color]\n[color=d8d8d8]training app![/color]'
+            font_size: '20px'
             font_name: 'Tahoma-Bold'
             markup: True
             halign: 'center'
+            size_hint: (None, None)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
         Label:
-            text: '[i]Choose the game mode:[/i]'
-            font_size: 16
-            size_hint: (1, 0.33)
+            text: 'Choose the game mode:'
+            font_size: '16px'
+            font_name: 'Tahoma-Regular'
             markup: True
-        BigButton:
-            text: 'from Russian to English'
-            background_color: (0, 1, 1, 1)
+            size_hint: (None, None)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.70}
+        StartScreenButton:
+            text: '[color=#98e0ef]from RUS to ENG[/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
-        BigButton:
-            text: 'from English to Russian'
-            background_color: (0, 1, 0, 1)
-            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('eng_rus')
+        StartScreenButton:
+            text: '[color=#98e0ef]from ENG to RUS[/color]'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.41}
+            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
 
 <GameModeScreen>:
     GridLayout:
