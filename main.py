@@ -146,13 +146,14 @@ def main():
         def add_widgets(self, names):
             for name in [n.lower() for n in names]:
                 label = Label(id=name + '_label',
-                              size_hint=(1, 0.1),
-                              font_size='16px',
+                              size_hint=(1, 0.025),
+                              font_size='14px',
                               color=(120, 102, 102, 1),
                               font_name='Tahoma-Regular',
                               text='[color=e4cfcf]{}:[/color].'.format(name),
-                              markup=True)
-                text_inp = TextInput(size_hint=(1, 0.15),
+                              markup=True,
+                              align='bottom')
+                text_inp = TextInput(size_hint=(1, 0.025),
                                      bold=True,
                                      markup=True,
                                      id=name + '_text_inp',
