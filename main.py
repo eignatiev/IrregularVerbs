@@ -7,7 +7,6 @@ from kivy.app import App
 from kivy.clock import mainthread
 from kivy.lang import Builder
 from kivy.properties import ListProperty, ObjectProperty
-from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -80,10 +79,10 @@ def main():
             x1, x2 = None, None
             for i in self.ids.from_word.children:
                 if i.state == 'down':
-                    x1 = WORDS_LIST.index(i.text)
+                    x1 = int(i.id.replace('from_button', ''))
             for i in self.ids.to_word.children:
                 if i.state == 'down':
-                    x2 = WORDS_LIST.index(i.text)
+                    x2 = int(i.id.replace('to_button', ''))
             if x1 is not None and x2 is not None:
                 # Choosing the sub-list
                 if x1 < x2:
@@ -108,20 +107,33 @@ def main():
                 lang = 'Simple'
             for i in xrange(len(WORDS)):
                 text = WORDS[i][lang]
+                text = text.split('/')
+                if len(text) > 2:
+                    text = ', '.join(text[:2]) + ',\n{}'.format(text[2])
+                else:
+                    text = ', '.join(text)
                 from_group = "from_group"
                 to_group = "to_group"
-                from_button = MyButton(text=text,
+                from_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
+                                       markup=True,
                                        size_hint_y=None,
-                                       font_size=10,
-                                       height="29sp",
-                                       background_color=(0, 1, 1, 1),
+                                       font_size='12px',
+                                       font_name='Tahoma',
+                                       halign='center',
+                                       height='50px',
+                                       background_down='',
+                                       background_color=[212/255.0, 220/255.0, 217/255.0, 0.4],
                                        group=from_group,
                                        id="from_button" + str(i))
-                to_button = MyButton(text=text,
+                to_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
+                                     markup=True,
                                      size_hint_y=None,
-                                     font_size=10,
-                                     height="29sp",
-                                     background_color=(0, 1, 1, 1),
+                                     font_size='12px',
+                                     font_name='Tahoma',
+                                     halign='center',
+                                     height='50px',
+                                     background_down='',
+                                     background_color=[66/255.0, 80/255.0, 83/255.0, 0.8],
                                      group=to_group,
                                      id="to_button" + str(i))
                 self.ids.from_word.add_widget(from_button)

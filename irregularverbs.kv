@@ -126,7 +126,7 @@ ScreenManagement:
         TransButton:
             text: '[color=#98e0ef]from ENG to RUS[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.41}
-            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
+            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('eng_rus')
 
 <GameModeScreen>:
     canvas.before:
@@ -164,18 +164,41 @@ ScreenManagement:
             on_release: app.root.current = "GameFieldScreen"
 
 <WordsChoosingScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/background_dark.jpg'
     FloatLayout:
         Label:
-            text: "From:"
-            size_hint: (0.5, 0.05)
+            canvas.before:
+                Color:
+                    rgb: 0, 15/255.0, 15/255.0
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: '[color=98e0ef]from:[/color]'
+            markup: True
+            font_size: '16px'
+            font_name: 'Roboto-Bold'
+            size_hint: (0.5, 0.075)
             pos_hint: {"x": 0, "top": 1}
         Label:
-            text: "To:"
-            size_hint: (0.5, 0.05)
+            canvas.before:
+                Color:
+                    rgb: 0, 15/255.0, 15/255.0
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: '[color=98e0ef]to:[/color]'
+            markup: True
+            font_size: '16px'
+            font_name: 'Roboto-Bold'
+            size_hint: (0.5, 0.075)
             pos_hint: {"x": 0.5, "top": 1}
         ScrollView:
             size_hint: (0.5, 0.85)
-            pos_hint: {"x": 0, "top": 0.95}
+            pos_hint: {"x": 0, "top": 0.925}
             GridLayout:
                 id: from_word
                 height: self.minimum_height
@@ -183,7 +206,7 @@ ScreenManagement:
                 cols: 1
         ScrollView:
             size_hint: (0.5, 0.85)
-            pos_hint: {"x": 0.5, "top": 0.95}
+            pos_hint: {"x": 0.5, "top": 0.925}
             GridLayout:
                 id: to_word
                 height: self.minimum_height
