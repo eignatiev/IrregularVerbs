@@ -35,6 +35,15 @@ ScreenManagement:
     background_color: (0, 0, 0, 0.35)
     size_hint: (1, 0.08)
 
+<BlueBottomButton@Button>:
+    markup: True
+    font_size: '20px'
+    font_name: 'Tahoma-Bold'
+    background_normal: ''
+    background_color: [34/255.0, 82/255.0, 102/255.0, 1]
+    size_hint: (1, 0.1)
+    pos_hint: {'center_x': 0.5, 'y': 0}
+
 <GreenLabel>:
     height: '50sp'
     size_hint_y: None
@@ -180,14 +189,9 @@ ScreenManagement:
                 height: self.minimum_height
                 size_hint_y:  None
                 cols: 1
-        Button:
+        BlueBottomButton:
             id: start_button
-            size_hint: (1, 0.1)
-            pos_hint: {"x": 0, "top": 0.1}
-            background_color: (0, 1, 0, 1)
-            font_size: 14
-            markup: True
-            text: "[i]Let's go![/i]"
+            text: "[color=#d4dcd9][b]Let's go![/b][/color]"
             on_release:
                 if root.set_words_list(root.choose_words()): app.root.current = "GameFieldScreen"; \
                 app.in_game_list = root.set_words_list(root.choose_words());
@@ -212,16 +216,9 @@ ScreenManagement:
             size_hint: (1, 0.5)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             id: game_field_layout
-        Button:
+        BlueBottomButton:
             id: next_button
             text: '[color=#d4dcd9][b]Next[/b][/color]'
-            markup: True
-            font_size: '20px'
-            font_name: 'Tahoma-Bold'
-            background_normal: ''
-            background_color: [34/255.0, 82/255.0, 102/255.0, 1]
-            size_hint: (1, 0.1)
-            pos_hint: {'center_x': 0.5, 'y': 0}
             on_release: root.next_word
 
 <FinalScreen>:
