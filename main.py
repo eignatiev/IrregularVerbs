@@ -208,42 +208,42 @@ def main():
             data_to_be_saved = {}
             if _inp_rus:
                 _inp_rus = (unicode(_inp_rus).encode('utf8'))
-                data_to_be_saved['Should_be'] = self.current_word['Russian']
-                data_to_be_saved['Inputted'] = _inp_rus
-                data_to_be_saved['Initial'] = self.current_word['Simple']
+                data_to_be_saved['should_be'] = self.current_word['Russian']
+                data_to_be_saved['inputted'] = _inp_rus
+                data_to_be_saved['initial'] = self.current_word['Simple']
                 if _inp_rus in self.current_word['Russian'].split('/'):
                     self.next_button.markup = True
                     self.next_button.text = '[color=#419f6d]Correct[/color]'
-                    data_to_be_saved['Is_correct'] = True
+                    data_to_be_saved['is_correct'] = True
                     self.true_counter += 1
                 else:
                     self.next_button.markup = True
                     self.next_button.text = '[color=#da7878]Wrong[/color]'
-                    data_to_be_saved['Is_correct'] = False
+                    data_to_be_saved['is_correct'] = False
                 self.save_data(data_to_be_saved)
             elif _inp_eng:
-                data_to_be_saved['Should_be1'] = self.current_word['Simple']
-                data_to_be_saved['Should_be2'] = self.current_word['PastSimple']
-                data_to_be_saved['Should_be3'] = self.current_word['PastParticiple']
-                data_to_be_saved['Inputted1'] = _inp_eng['Present Simple']
-                data_to_be_saved['Inputted2'] = _inp_eng['Past Simple']
-                data_to_be_saved['Inputted3'] = _inp_eng['Past Participle']
-                data_to_be_saved['Initial'] = self.current_word['Russian']
+                data_to_be_saved['should_be1'] = self.current_word['Simple']
+                data_to_be_saved['should_be2'] = self.current_word['PastSimple']
+                data_to_be_saved['should_be3'] = self.current_word['PastParticiple']
+                data_to_be_saved['inputted1'] = _inp_eng['Present Simple']
+                data_to_be_saved['inputted2'] = _inp_eng['Past Simple']
+                data_to_be_saved['inputted3'] = _inp_eng['Past Participle']
+                data_to_be_saved['initial'] = self.current_word['Russian']
                 if _inp_eng['Present Simple'] == self.current_word['Simple']:
-                    data_to_be_saved['Is_correct1'] = True
+                    data_to_be_saved['is_correct1'] = True
                 else:
-                    data_to_be_saved['Is_correct1'] = False
+                    data_to_be_saved['is_correct1'] = False
                 if _inp_eng['Past Simple'] in self.current_word['PastSimple'].split('/'):
-                    data_to_be_saved['Is_correct2'] = True
+                    data_to_be_saved['is_correct2'] = True
                 else:
-                    data_to_be_saved['Is_correct2'] = False
+                    data_to_be_saved['is_correct2'] = False
                 if _inp_eng['Past Participle'] == self.current_word['PastParticiple']:
-                    data_to_be_saved['Is_correct3'] = True
+                    data_to_be_saved['is_correct3'] = True
                 else:
-                    data_to_be_saved['Is_correct3'] = False
-                if data_to_be_saved['Is_correct1'] and \
-                        data_to_be_saved['Is_correct2'] and \
-                        data_to_be_saved['Is_correct3']:
+                    data_to_be_saved['is_correct3'] = False
+                if data_to_be_saved['is_correct1'] and \
+                        data_to_be_saved['is_correct2'] and \
+                        data_to_be_saved['is_correct3']:
                     self.next_button.markup = True
                     self.next_button.text = '[color=#419f6d]Correct[/color]'
                     self.true_counter += 1
@@ -335,59 +335,64 @@ def main():
 
             def to_red(text):
                 return '[color=cc0000]' + text
+
+            def is_wrong_answer(answer):
+                keys = ['is_correct1', 'is_correct2', 'is_correct3']
+                values = [answer[key] for key in keys]
+                return not all(values)
+
             if MODE == 'rus_eng':
                 for item in self.saved_data:
-                    for i in ['1', '2', '3']:
-                        if item['Is_correct' + i]:
-                            item['Inputted' + i] = to_green(item['Inputted' + i])
-                        else:
-                            item['Inputted' + i] = to_red(item['Inputted' + i])
-                    if white_color:
-                        label_1 = WhiteLabel(text=item['Initial'])
-                        self.ids.final_table.add_widget(label_1)
-                        label_2 = WhiteLabel(text=item['Should_be1'] + '\n' +
-                                                  item['Should_be2'] + '\n' +
-                                                  item['Should_be3'])
-                        self.ids.final_table.add_widget(label_2)
-                        label_3 = WhiteLabel(text=item['Inputted1'] + '\n' +
-                                                  item['Inputted2'] + '\n' +
-                                                  item['Inputted3'])
-                        self.ids.final_table.add_widget(label_3)
-                        white_color = False
-                    elif not white_color:
-                        label_1 = BeigeLabel(text=item['Initial'])
-                        self.ids.final_table.add_widget(label_1)
-                        label_2 = BeigeLabel(text=item['Should_be1'] + '\n' +
-                                                  item['Should_be2'] + '\n' +
-                                                  item['Should_be3'])
-                        self.ids.final_table.add_widget(label_2)
-                        label_3 = BeigeLabel(text=item['Inputted1'] + '\n' +
-                                                  item['Inputted2'] + '\n' +
-                                                  item['Inputted3'])
-                        self.ids.final_table.add_widget(label_3)
-                        white_color = True
+                    if is_wrong_answer(item):
+                        for i in ['1', '2', '3']:
+                            if item['is_correct' + i]:
+                                item['inputted' + i] = to_green(item['inputted' + i])
+                            else:
+                                item['inputted' + i] = to_red(item['inputted' + i])
+                        if white_color:
+                            label_1 = WhiteLabel(text=item['initial'])
+                            self.ids.final_table.add_widget(label_1)
+                            label_2 = WhiteLabel(text=item['should_be1'] + '\n' +
+                                                      item['should_be2'] + '\n' +
+                                                      item['should_be3'])
+                            self.ids.final_table.add_widget(label_2)
+                            label_3 = WhiteLabel(text=item['inputted1'] + '\n' +
+                                                      item['inputted2'] + '\n' +
+                                                      item['inputted3'])
+                            self.ids.final_table.add_widget(label_3)
+                            white_color = False
+                        elif not white_color:
+                            label_1 = BeigeLabel(text=item['initial'])
+                            self.ids.final_table.add_widget(label_1)
+                            label_2 = BeigeLabel(text=item['should_be1'] + '\n' +
+                                                      item['should_be2'] + '\n' +
+                                                      item['should_be3'])
+                            self.ids.final_table.add_widget(label_2)
+                            label_3 = BeigeLabel(text=item['inputted1'] + '\n' +
+                                                      item['inputted2'] + '\n' +
+                                                      item['inputted3'])
+                            self.ids.final_table.add_widget(label_3)
+                            white_color = True
             elif MODE == 'eng_rus':
                 for item in self.saved_data:
-                    if item['Is_correct']:
-                        item['Inputted'] = to_green(item['Inputted'])
-                    else:
-                        item['Inputted'] = to_red(item['Inputted'])
-                    if white_color:
-                        label_1 = WhiteLabel(text=item['Initial'])
-                        self.ids.final_table.add_widget(label_1)
-                        label_2 = WhiteLabel(text=item['Should_be'])
-                        self.ids.final_table.add_widget(label_2)
-                        label_3 = WhiteLabel(text=item['Inputted'])
-                        self.ids.final_table.add_widget(label_3)
-                        white_color = False
-                    elif not white_color:
-                        label_1 = BeigeLabel(text=item['Initial'])
-                        self.ids.final_table.add_widget(label_1)
-                        label_2 = BeigeLabel(text=item['Should_be'])
-                        self.ids.final_table.add_widget(label_2)
-                        label_3 = BeigeLabel(text=item['Inputted'])
-                        self.ids.final_table.add_widget(label_3)
-                        white_color = True
+                    if not item['is_correct']:
+                        item['inputted'] = to_red(item['inputted'])
+                        if white_color:
+                            label_1 = WhiteLabel(text=item['initial'])
+                            self.ids.final_table.add_widget(label_1)
+                            label_2 = WhiteLabel(text=item['should_be'])
+                            self.ids.final_table.add_widget(label_2)
+                            label_3 = WhiteLabel(text=item['inputted'])
+                            self.ids.final_table.add_widget(label_3)
+                            white_color = False
+                        elif not white_color:
+                            label_1 = BeigeLabel(text=item['initial'])
+                            self.ids.final_table.add_widget(label_1)
+                            label_2 = BeigeLabel(text=item['should_be'])
+                            self.ids.final_table.add_widget(label_2)
+                            label_3 = BeigeLabel(text=item['inputted'])
+                            self.ids.final_table.add_widget(label_3)
+                            white_color = True
             GameFieldScreen.saved_data = []
 
     class ScreenManagement(ScreenManager):
