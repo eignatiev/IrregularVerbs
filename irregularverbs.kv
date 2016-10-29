@@ -245,24 +245,52 @@ ScreenManagement:
             on_release: root.next_word
 
 <FinalScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/background_dark.jpg'
     on_enter: root.output_data()
-    ScrollView:
-        size_hint: (1, 0.9)
-        pos_hint: {"x": 0, "top": 1}
+    FloatLayout:
+        Label:
+            markup: True
+            font_size: '14px'
+            font_name: 'Roboto'
+            halign: 'center'
+            size_hint: (1, 0.1)
+            pos_hint: {"x": 0, "top": 1}
+            id: resolution
+        Label:
+            canvas.before:
+                Color:
+                    rgb: 0, 15/255.0, 15/255.0
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            markup: True
+            text: 'Wrong answers:'
+            font_size: '14px'
+            font_name: 'Roboto-Bold'
+            halign: 'center'
+            size_hint: (1, 0.05)
+            pos_hint: {"x": 0, "top": 0.9}
+        ScrollView:
+            size_hint: (1, 0.85)
+            pos_hint: {"x": 0, "top": 0.85}
+            GridLayout:
+                cols: 3
+                id: final_table
+                height: self.minimum_height
+                size_hint_y: None
         GridLayout:
-            cols: 3
-            id: final_table
-            height: self.minimum_height
-            size_hint_y: None
-    GridLayout:
-        size_hint: (1, 0.1)
-        pos_hint: {"x": 0, "top": 0.1}
-        cols: 2
-        Button:
-            text: 'Once Again'
-            background_color: (0, 1, 0, 1)
-            on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
-        Button:
-            text: 'Exit'
-            background_color: (1, 0, 0, 1)
-            on_release: app.stop()
+            size_hint: (1, 0.1)
+            pos_hint: {"x": 0, "top": 0.1}
+            cols: 2
+            Button:
+                text: 'Once Again'
+                background_color: (0, 1, 0, 1)
+                on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
+            Button:
+                text: 'Exit'
+                background_color: (1, 0, 0, 1)
+                on_release: app.stop()
