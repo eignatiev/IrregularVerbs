@@ -247,7 +247,7 @@ ScreenManagement:
             size_hint: (1, 0.05)
             pos_hint: {"x": 0, "top": 0.9}
         ScrollView:
-            size_hint: (1, 0.85)
+            size_hint: (1, 0.75)
             pos_hint: {"x": 0, "top": 0.85}
             GridLayout:
                 cols: 3
@@ -258,11 +258,12 @@ ScreenManagement:
             size_hint: (1, 0.1)
             pos_hint: {"x": 0, "top": 0.1}
             cols: 2
-            Button:
-                text: 'Once Again'
-                background_color: (0, 1, 0, 1)
+            BlueBottomButton:
+                text: '[color=#d4dcd9][b]Once Again'
+                size_hint: (0.5, 0.1)
                 on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
-            Button:
-                text: 'Exit'
-                background_color: (1, 0, 0, 1)
+            BlueBottomButton:
+                text: '[color=#da7878][b]Exit'
+                size_hint: (0.5, 0.1)
+                background_color: [25/255.0, 61/255.0, 76/255.0, 1]
                 on_release: app.stop()

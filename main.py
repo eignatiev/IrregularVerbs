@@ -374,17 +374,18 @@ def main():
                     if not item['is_correct']:
                         item['inputted'] = to_red(item['inputted'])
                         if white_color:
-                            label_1 = LighterLabel(text=item['initial'])
+                            label_1 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['initial']))
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = LighterLabel(text=item['should_be'])
+                            label_2 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['should_be']))
                             self.ids.final_table.add_widget(label_2)
                             label_3 = LighterLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
                             white_color = False
                         elif not white_color:
-                            label_1 = DarkerLabel(text=item['initial'])
+                            label_1 = DarkerLabel(text='[color=#a6a6a6]{}'.format(item['initial']))
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = DarkerLabel(text=item['should_be'])
+                            label_2 = DarkerLabel(text='[color=#a6a6a6]{}'.format(item['should_be']
+                                                                                  .replace('/', ',\n')))
                             self.ids.final_table.add_widget(label_2)
                             label_3 = DarkerLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
