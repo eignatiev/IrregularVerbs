@@ -292,20 +292,15 @@ def main():
                     App.get_running_app().root.current = 'FinalScreen'
             else:
                 self.alert()
-
-    class GreenLabel(Label):
         pass
 
-    class YellowLabel(Label):
+    class FinalScreenLabel(Label):
         pass
 
-    class RedLabel(Label):
+    class LighterLabel(FinalScreenLabel):
         pass
 
-    class WhiteLabel(Label):
-        pass
-
-    class BeigeLabel(Label):
+    class DarkerLabel(FinalScreenLabel):
         pass
 
     class FinalScreen(Screen):
@@ -331,10 +326,10 @@ def main():
             white_color = True
 
             def to_green(text):
-                return '[color=009900]' + text
+                return '[color=87E987]{}'.format(text)
 
             def to_red(text):
-                return '[color=cc0000]' + text
+                return '[color=DFB1B1]{}'.format(text)
 
             def is_wrong_answer(answer):
                 keys = ['is_correct1', 'is_correct2', 'is_correct3']
@@ -350,27 +345,28 @@ def main():
                             else:
                                 item['inputted' + i] = to_red(item['inputted' + i])
                         if white_color:
-                            label_1 = WhiteLabel(text=item['initial'])
+                            label_1 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['initial'].replace('/', ',\n')))
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = WhiteLabel(text=item['should_be1'] + '\n' +
-                                                      item['should_be2'] + '\n' +
-                                                      item['should_be3'])
+                            label_2 = LighterLabel(text='\n'.join(map('[color=#a6a6a6]{}'
+                                                                      .format, [item['should_be1'],
+                                                                                item['should_be2'],
+                                                                                item['should_be3']])))
                             self.ids.final_table.add_widget(label_2)
-                            label_3 = WhiteLabel(text=item['inputted1'] + '\n' +
-                                                      item['inputted2'] + '\n' +
-                                                      item['inputted3'])
+                            label_3 = LighterLabel(text='\n'.join([item['inputted1'],
+                                                                   item['inputted2'],
+                                                                   item['inputted3']]))
                             self.ids.final_table.add_widget(label_3)
                             white_color = False
                         elif not white_color:
-                            label_1 = BeigeLabel(text=item['initial'])
+                            label_1 = DarkerLabel(text='[color=#a6a6a6]{}'.format(item['initial'].replace('/', ',\n')))
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = BeigeLabel(text=item['should_be1'] + '\n' +
-                                                      item['should_be2'] + '\n' +
-                                                      item['should_be3'])
+                            label_2 = DarkerLabel(text='\n'.join(map('[color=#a6a6a6]{}'.format, [item['should_be1'],
+                                                                                                  item['should_be2'],
+                                                                                                  item['should_be3']])))
                             self.ids.final_table.add_widget(label_2)
-                            label_3 = BeigeLabel(text=item['inputted1'] + '\n' +
-                                                      item['inputted2'] + '\n' +
-                                                      item['inputted3'])
+                            label_3 = DarkerLabel(text='\n'.join([item['inputted1'],
+                                                                  item['inputted2'],
+                                                                  item['inputted3']]))
                             self.ids.final_table.add_widget(label_3)
                             white_color = True
             elif MODE == 'eng_rus':
@@ -378,19 +374,19 @@ def main():
                     if not item['is_correct']:
                         item['inputted'] = to_red(item['inputted'])
                         if white_color:
-                            label_1 = WhiteLabel(text=item['initial'])
+                            label_1 = LighterLabel(text=item['initial'])
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = WhiteLabel(text=item['should_be'])
+                            label_2 = LighterLabel(text=item['should_be'])
                             self.ids.final_table.add_widget(label_2)
-                            label_3 = WhiteLabel(text=item['inputted'])
+                            label_3 = LighterLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
                             white_color = False
                         elif not white_color:
-                            label_1 = BeigeLabel(text=item['initial'])
+                            label_1 = DarkerLabel(text=item['initial'])
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = BeigeLabel(text=item['should_be'])
+                            label_2 = DarkerLabel(text=item['should_be'])
                             self.ids.final_table.add_widget(label_2)
-                            label_3 = BeigeLabel(text=item['inputted'])
+                            label_3 = DarkerLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
                             white_color = True
             GameFieldScreen.saved_data = []

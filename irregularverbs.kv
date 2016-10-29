@@ -44,55 +44,27 @@ ScreenManagement:
     size_hint: (1, 0.1)
     pos_hint: {'center_x': 0.5, 'y': 0}
 
-<GreenLabel>:
-    height: '50sp'
+<FinalScreenLabel>:
+    height: '55px'
     size_hint_y: None
-    canvas.before:
-        Color:
-            rgb: 0, 102/256.0, 0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-<YellowLabel>:
-    height: '50sp'
-    size_hint_y: None
-    canvas.before:
-        Color:
-            rgb: 204/256.0, 204/256.0, 0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-<RedLabel>:
-    height: '50sp'
-    size_hint_y: None
-    canvas.before:
-        Color:
-            rgb: 255/256.0, 0, 0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-<WhiteLabel>:
-    height: '55sp'
-    size_hint_y: None
-    color: (0, 0, 0, 1)
+    color: (166, 166, 166, 1)
     markup: True
+    font_size: '12px'
+    font_name: 'Tahoma'
+    halign: 'center'
+
+<LighterLabel@FinalScreenLabel>:
     canvas.before:
         Color:
-            rgb: 1, 1, 1
+            rgba: 212/255.0, 220/255.0, 217/255.0, 0.1
         Rectangle:
             pos: self.pos
             size: self.size
-<BeigeLabel>:
-    height: '55sp'
-    size_hint_y: None
-    color: (0, 0, 0, 1)
-    markup: True
+
+<DarkerLabel@FinalScreenLabel>:
     canvas.before:
         Color:
-            rgb: 255/256.0, 255/256.0, 153/256.0
+            rgba: 66/255.0, 80/255.0, 83/255.0, 0.2
         Rectangle:
             pos: self.pos
             size: self.size
