@@ -312,18 +312,18 @@ def main():
         saved_data = []
         percent = 0
 
-        def set_resolution(self, widget, percent, common_noun):
+        def set_resolution(self, percent, common_noun):
             resolution_text = '[color=98e0ef]You\'ve passed [b]{}%[/b] of words.\nYou are [b]{}[/b].[/color]'\
                 .format(str(percent), common_noun)
             self.ids.resolution.text = resolution_text
 
         def add_result(self, percent):
             if percent >= 85:
-                self.set_resolution(GreenLabel, percent, 'brain')
+                self.set_resolution(percent, 'brain')
             elif 60 < percent < 85:
-                self.set_resolution(YellowLabel, percent, 'middling')
+                self.set_resolution(percent, 'middling')
             else:
-                self.set_resolution(RedLabel, percent, 'moron')
+                self.set_resolution(percent, 'moron')
 
         def output_data(self):
             self.saved_data = GameFieldScreen.saved_data
