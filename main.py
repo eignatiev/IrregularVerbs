@@ -369,7 +369,8 @@ def main():
                         if white_color:
                             label_1 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['initial']))
                             self.ids.final_table.add_widget(label_1)
-                            label_2 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['should_be']))
+                            label_2 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['should_be']
+                                                                                  .replace('/', ',\n')))
                             self.ids.final_table.add_widget(label_2)
                             label_3 = LighterLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
