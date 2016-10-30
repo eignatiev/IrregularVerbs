@@ -6,7 +6,6 @@ import csv
 from kivy.app import App
 from kivy.clock import mainthread
 from kivy.lang import Builder
-from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -23,14 +22,14 @@ def main():
         def initial_preparation(mode):
             """Preparing the tuple of lists with all the words
             :param mode: toggles between English and Russian"""
-            global WORDS, RUS_WORDS, ENG_WORDS
+            global MODE, WORDS, RUS_WORDS, ENG_WORDS, WORDS_LIST
             WORDS = tuple()
+            RUS_WORDS = list()
+            ENG_WORDS = list()
             with open('import.csv', 'r') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     WORDS += (row,)
-            RUS_WORDS = []
-            ENG_WORDS = []
             for i in range(len(WORDS)):
                 rus_text = WORDS[i]['Russian']
                 RUS_WORDS.append(rus_text)
@@ -38,16 +37,14 @@ def main():
                 ENG_WORDS.append(eng_text)
             RUS_WORDS = tuple(RUS_WORDS)
             ENG_WORDS = tuple(ENG_WORDS)
-            global MODE
             MODE = mode
-            global WORDS_LIST
             if MODE == 'rus_eng':
                 WORDS_LIST = RUS_WORDS
             else:
                 WORDS_LIST = ENG_WORDS
 
     class GameModeScreen(Screen):
-        in_game_words = ListProperty()
+        in_game_words = []
 
         def set_words_list(self, n, random=True):
             self.in_game_words = []
@@ -150,7 +147,7 @@ def main():
         # Text from text inputs
         inp_rus = None
         inp_eng = {}
-        next_button = ObjectProperty()
+        next_button = object()
         saved_data = []
         true_counter = 0
         true_percent = 0
@@ -178,13 +175,9 @@ def main():
         def set_cur_word_text(self):
             self.current_word = self.in_game_list[self.current_word_number]
             if MODE == 'rus_eng':
-                self.ids.cur_word.text = '[b][color=98e0ef]' + \
-                                         self.current_word['Russian'] + \
-                                         '[/color][/b]'
+                self.ids.cur_word.text = '[b][color=98e0ef]{}[/color][/b]'.format(self.current_word['Russian'])
             elif MODE == 'eng_rus':
-                self.ids.cur_word.text = '[b][color=98e0ef]' + \
-                                         self.current_word['Simple'] + \
-                                         '[/color][/b]'
+                self.ids.cur_word.text = '[b][color=98e0ef]{}[/color][/b]'.format(self.current_word['Simple'])
 
         def restore_but(self, *a):
             self.next_button.text = '[color=#d4dcd9][b]Next[/b][/color]'
@@ -241,9 +234,9 @@ def main():
                     data_to_be_saved['is_correct3'] = True
                 else:
                     data_to_be_saved['is_correct3'] = False
-                if data_to_be_saved['is_correct1'] and \
-                        data_to_be_saved['is_correct2'] and \
-                        data_to_be_saved['is_correct3']:
+                if all([data_to_be_saved['is_correct1'],
+                        data_to_be_saved['is_correct2'],
+                        data_to_be_saved['is_correct3']]):
                     self.next_button.markup = True
                     self.next_button.text = '[color=#419f6d]Correct[/color]'
                     self.true_counter += 1
