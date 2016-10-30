@@ -1,0 +1,3 @@
+Resize input for rus_eng mode - Open
+Change the screen size when keyboard is shown - Open
+Add training mode and screen - Open
