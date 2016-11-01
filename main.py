@@ -190,8 +190,10 @@ def main():
             eng_labels = ['Present Simple', 'Past Simple', 'Past Participle']
             rus_label = ['Russian']
             if MODE == 'rus_eng':
+                self.ids.game_field_layout.size_hint = (1, 0.5)
                 self.add_widgets(eng_labels)
             elif MODE == 'eng_rus':
+                self.ids.game_field_layout.size_hint = (1, 0.166)
                 self.add_widgets(rus_label)
 
         def save_data(self, inp):
