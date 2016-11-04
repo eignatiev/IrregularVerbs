@@ -16,13 +16,12 @@ __version__ = '1.0'
 
 
 def main():
-
     class StartScreen(Screen):
         @staticmethod
         def initial_preparation(mode):
             """Preparing the tuple of lists with all the words
             :param mode: toggles between English and Russian"""
-            global MODE, WORDS, RUS_WORDS, ENG_WORDS, WORDS_LIST
+            global MODE, WORDS, RUS_WORDS, ENG_WORDS
             WORDS = tuple()
             RUS_WORDS = list()
             ENG_WORDS = list()
@@ -38,10 +37,6 @@ def main():
             RUS_WORDS = tuple(RUS_WORDS)
             ENG_WORDS = tuple(ENG_WORDS)
             MODE = mode
-            if MODE == 'rus_eng':
-                WORDS_LIST = RUS_WORDS
-            else:
-                WORDS_LIST = ENG_WORDS
 
     class GameModeScreen(Screen):
         in_game_words = []
@@ -122,7 +117,7 @@ def main():
                                        halign='center',
                                        height='50px',
                                        background_down='',
-                                       background_color=[212/255.0, 220/255.0, 217/255.0, 0.4],
+                                       background_color=[212 / 255.0, 220 / 255.0, 217 / 255.0, 0.4],
                                        group=from_group,
                                        id='from_button' + str(i))
                 to_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
@@ -133,7 +128,7 @@ def main():
                                      halign='center',
                                      height='50px',
                                      background_down='',
-                                     background_color=[66/255.0, 80/255.0, 83/255.0, 0.8],
+                                     background_color=[66 / 255.0, 80 / 255.0, 83 / 255.0, 0.8],
                                      group=to_group,
                                      id='to_button' + str(i))
                 self.ids.from_word.add_widget(from_button)
@@ -191,7 +186,7 @@ def main():
             self.next_button.text = '[color=#d4dcd9][b]Next[/b][/color]'
             self.next_button.font_size = '20px'
             self.next_button.background_normal = ''
-            self.next_button.background_color = [34/255.0, 82/255.0, 102/255.0, 1]
+            self.next_button.background_color = [34 / 255.0, 82 / 255.0, 102 / 255.0, 1]
 
         def add_items(self):
             self.set_cur_word_text()
@@ -292,9 +287,11 @@ def main():
                     self.true_counter = 0
                     FinalScreen.percent = self.true_percent
                     self.ids.game_field_layout.clear_widgets()
+                    FinalScreen.in_game_list = self.in_game_list
                     App.get_running_app().root.current = 'FinalScreen'
             else:
                 self.alert()
+
         pass
 
     class FinalScreenLabel(Label):
@@ -308,10 +305,11 @@ def main():
 
     class FinalScreen(Screen):
         saved_data = []
+        wrong_answers = []
         percent = 0
 
         def set_resolution(self, percent, common_noun):
-            resolution_text = '[color=98e0ef]You\'ve passed [b]{}%[/b] of words.\nYou are [b]{}[/b].[/color]'\
+            resolution_text = '[color=98e0ef]You\'ve passed [b]{}%[/b] of words.\nYou are [b]{}[/b].[/color]' \
                 .format(str(percent), common_noun)
             self.ids.resolution.text = resolution_text
 
@@ -322,6 +320,12 @@ def main():
                 self.set_resolution(percent, 'middling')
             else:
                 self.set_resolution(percent, 'moron')
+
+        def add_wrong_answer(self, answer):
+            for word in self.in_game_list:
+                if answer['initial'] in [word['Simple'], word['Russian']]:
+                    self.wrong_answers.append(word)
+                    break
 
         def output_data(self):
             self.saved_data = GameFieldScreen.saved_data
@@ -342,6 +346,7 @@ def main():
             if MODE == 'rus_eng':
                 for item in self.saved_data:
                     if is_wrong_answer(item):
+                        self.add_wrong_answer(item)
                         for i in ['1', '2', '3']:
                             if item['is_correct' + i]:
                                 item['inputted' + i] = to_green(item['inputted' + i])
@@ -375,12 +380,13 @@ def main():
             elif MODE == 'eng_rus':
                 for item in self.saved_data:
                     if not item['is_correct']:
+                        self.add_wrong_answer(item)
                         item['inputted'] = to_red(item['inputted'])
                         if white_color:
                             label_1 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['initial']))
                             self.ids.final_table.add_widget(label_1)
                             label_2 = LighterLabel(text='[color=#a6a6a6]{}'.format(item['should_be']
-                                                                                  .replace('/', ',\n')))
+                                                                                   .replace('/', ',\n')))
                             self.ids.final_table.add_widget(label_2)
                             label_3 = LighterLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
@@ -396,9 +402,6 @@ def main():
                             white_color = True
             GameFieldScreen.saved_data = []
 
-    class TrainingScreen(Screen):
-        pass
-
     class ScreenManagement(ScreenManager):
         pass
 
@@ -409,6 +412,7 @@ def main():
             return program
 
     IrregularVerbsApp().run()
+
 
 if __name__ == '__main__':
     main()

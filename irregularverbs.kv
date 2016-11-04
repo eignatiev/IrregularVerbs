@@ -23,10 +23,6 @@ ScreenManagement:
         name: 'FinalScreen'
         id: final_screen
         manager: screen_manager
-    TrainingScreen:
-        name: 'TrainingScreen'
-        id: training_screen
-        manager: screen_manager
 
 <BigButton@Button>:
     font_size: '14px'
@@ -98,11 +94,15 @@ ScreenManagement:
         TransButton:
             text: '[color=#98e0ef]from RUS to ENG[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = 'GameModeScreen'; root.initial_preparation('rus_eng')
+            on_release:
+                app.root.current = 'GameModeScreen'
+                root.initial_preparation('rus_eng')
         TransButton:
             text: '[color=#98e0ef]from ENG to RUS[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.41}
-            on_release: app.root.current = 'GameModeScreen'; root.initial_preparation('eng_rus')
+            on_release:
+                app.root.current = 'GameModeScreen'
+                root.initial_preparation('eng_rus')
 
 <GameModeScreen>:
     canvas.before:
@@ -192,8 +192,8 @@ ScreenManagement:
             id: start_button
             text: '[color=#d4dcd9][b]Let\'s go![/b][/color]'
             on_release:
-                if root.set_words_list(root.choose_words()): app.root.current = 'GameFieldScreen'; \
-                app.in_game_list = root.set_words_list(root.choose_words());
+                if root.set_words_list(root.choose_words()): app.root.current = 'GameFieldScreen'
+                app.in_game_list = root.set_words_list(root.choose_words())
 
 <GameFieldScreen>:
     canvas.before:
@@ -202,7 +202,8 @@ ScreenManagement:
             size: self.size
             source: 'img/background_dark.jpg'
     on_enter:
-        root.in_game_list = app.in_game_list; root.add_items();
+        root.in_game_list = app.in_game_list
+        root.add_items()
     FloatLayout:
         Label:
             id: cur_word
@@ -227,7 +228,8 @@ ScreenManagement:
             pos: self.pos
             size: self.size
             source: 'img/background_dark.jpg'
-    on_enter: root.output_data()
+    on_enter:
+        root.output_data()
     FloatLayout:
         Label:
             markup: True
@@ -267,21 +269,20 @@ ScreenManagement:
                 text: '[color=#d4dcd9][b]Play\nAgain'
                 halign: 'center'
                 font_size: '14px'
-                on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
+                on_release:
+                    final_table.clear_widgets()
+                    root.wrong_answers = []
+                    app.root.current = 'StartScreen'
             BlueBottomButton:
                 text: '[color=#d4dcd9][b]Train'
                 font_size: '14px'
                 background_color: [29/255.0, 71/255.0, 89/255.0, 1]
-                on_release: final_table.clear_widgets(); app.root.current = 'TrainingScreen'
+                on_release:
+                    final_table.clear_widgets()
+                    app.in_game_list = root.wrong_answers
+                    app.root.current = 'GameFieldScreen'
             BlueBottomButton:
                 text: '[color=#da7878][b]Exit'
                 font_size: '14px'
                 background_color: [25/255.0, 61/255.0, 76/255.0, 1]
                 on_release: app.stop()
-
-<TrainingScreen>:
-    canvas.before:
-        Rectangle:
-            pos: self.pos
-            size: self.size
-            source: 'img/background_dark.jpg'
