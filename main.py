@@ -47,6 +47,8 @@ def main():
         in_game_words = []
 
         def set_words_list(self, n, random=True):
+            if n > len(WORDS):
+                raise IndexError('Wrong .csv words file was inputted. Number of available words: {}'.format(len(WORDS)))
             self.in_game_words = []
             if random:
                 i = 0
