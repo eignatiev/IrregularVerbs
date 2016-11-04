@@ -29,7 +29,7 @@ ScreenManagement:
         manager: screen_manager
 
 <BigButton@Button>:
-    font_size: 14
+    font_size: '14px'
     size_hint: (1, 0.33)
 
 <TransButton@Button>:
@@ -261,15 +261,21 @@ ScreenManagement:
                 size_hint_y: None
         GridLayout:
             size_hint: (1, 0.1)
-            pos_hint: {'x': 0, 'top': 0.1}
-            cols: 2
+            pos_hint: {'top': 0.1}
+            cols: 3
             BlueBottomButton:
-                text: '[color=#d4dcd9][b]Once Again'
-                size_hint: (0.5, 0.1)
+                text: '[color=#d4dcd9][b]Play\nAgain'
+                halign: 'center'
+                font_size: '14px'
                 on_release: final_table.clear_widgets(); app.root.current = 'StartScreen'
             BlueBottomButton:
+                text: '[color=#d4dcd9][b]Train'
+                font_size: '14px'
+                background_color: [29/255.0, 71/255.0, 89/255.0, 1]
+                on_release: final_table.clear_widgets(); app.root.current = 'TrainingScreen'
+            BlueBottomButton:
                 text: '[color=#da7878][b]Exit'
-                size_hint: (0.5, 0.1)
+                font_size: '14px'
                 background_color: [25/255.0, 61/255.0, 76/255.0, 1]
                 on_release: app.stop()
 
