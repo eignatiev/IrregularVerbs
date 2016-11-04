@@ -175,7 +175,12 @@ def main():
         def set_cur_word_text(self):
             self.current_word = self.in_game_list[self.current_word_number]
             if MODE == 'rus_eng':
-                self.ids.cur_word.text = '[b][color=98e0ef]{}[/color][/b]'.format(self.current_word['Russian'])
+                text = self.current_word['Russian'].split('/')
+                if len(text) > 2:
+                    text = ', '.join(text[:2]) + ',\n{}'.format(text[2])
+                else:
+                    text = ', '.join(text)
+                self.ids.cur_word.text = '[b][color=98e0ef]{}[/color][/b]'.format(text)
             elif MODE == 'eng_rus':
                 self.ids.cur_word.text = '[b][color=98e0ef]{}[/color][/b]'.format(self.current_word['Simple'])
 
