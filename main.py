@@ -12,7 +12,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.togglebutton import ToggleButton
 from random import randint
 
-__version__ = "1.0"
+__version__ = '1.0'
 
 
 def main():
@@ -111,8 +111,8 @@ def main():
                     text = ', '.join(text[:2]) + ',\n{}'.format(text[2])
                 else:
                     text = ', '.join(text)
-                from_group = "from_group"
-                to_group = "to_group"
+                from_group = 'from_group'
+                to_group = 'to_group'
                 from_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
                                        markup=True,
                                        size_hint_y=None,
@@ -123,7 +123,7 @@ def main():
                                        background_down='',
                                        background_color=[212/255.0, 220/255.0, 217/255.0, 0.4],
                                        group=from_group,
-                                       id="from_button" + str(i))
+                                       id='from_button' + str(i))
                 to_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
                                      markup=True,
                                      size_hint_y=None,
@@ -134,7 +134,7 @@ def main():
                                      background_down='',
                                      background_color=[66/255.0, 80/255.0, 83/255.0, 0.8],
                                      group=to_group,
-                                     id="to_button" + str(i))
+                                     id='to_button' + str(i))
                 self.ids.from_word.add_widget(from_button)
                 self.ids.to_word.add_widget(to_button)
 
@@ -395,10 +395,13 @@ def main():
                             white_color = True
             GameFieldScreen.saved_data = []
 
+    class TrainingScreen(Screen):
+        pass
+
     class ScreenManagement(ScreenManager):
         pass
 
-    program = Builder.load_file("irregularverbs.kv")
+    program = Builder.load_file('irregularverbs.kv')
 
     class IrregularVerbsApp(App):
         def build(self):

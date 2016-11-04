@@ -4,24 +4,28 @@ ScreenManagement:
     id: screen_manager
     transition: FadeTransition()
     StartScreen:
-        name: "StartScreen"
+        name: 'StartScreen'
         id: start_screen
         manager: screen_manager
     GameModeScreen:
-        name: "GameModeScreen"
+        name: 'GameModeScreen'
         id: game_mode_screen
         manager: screen_manager
     WordsChoosingScreen:
-        name: "WordsChoosingScreen"
+        name: 'WordsChoosingScreen'
         id: words_choosing_screen
         manager: screen_manager
     GameFieldScreen:
-        name: "GameFieldScreen"
+        name: 'GameFieldScreen'
         id: game_field_screen
         manager: screen_manager
     FinalScreen:
-        name: "FinalScreen"
+        name: 'FinalScreen'
         id: final_screen
+        manager: screen_manager
+    TrainingScreen:
+        name: 'TrainingScreen'
+        id: training_screen
         manager: screen_manager
 
 <BigButton@Button>:
@@ -94,11 +98,11 @@ ScreenManagement:
         TransButton:
             text: '[color=#98e0ef]from RUS to ENG[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('rus_eng')
+            on_release: app.root.current = 'GameModeScreen'; root.initial_preparation('rus_eng')
         TransButton:
             text: '[color=#98e0ef]from ENG to RUS[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.41}
-            on_release: app.root.current = "GameModeScreen"; root.initial_preparation('eng_rus')
+            on_release: app.root.current = 'GameModeScreen'; root.initial_preparation('eng_rus')
 
 <GameModeScreen>:
     canvas.before:
@@ -118,22 +122,22 @@ ScreenManagement:
         TransButton:
             text: '[color=#98e0ef]Want to choose from the list![/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.55}
-            on_release: app.root.current = "WordsChoosingScreen"
+            on_release: app.root.current = 'WordsChoosingScreen'
         TransButton:
             text: '[color=#98e0ef]10 random words[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.465}
             on_press: app.in_game_list = root.set_words_list(10)
-            on_release: app.root.current = "GameFieldScreen"
+            on_release: app.root.current = 'GameFieldScreen'
         TransButton:
             text: '[color=#98e0ef]20 random words[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.38}
             on_press: app.in_game_list = root.set_words_list(20)
-            on_release: app.root.current = "GameFieldScreen"
+            on_release: app.root.current = 'GameFieldScreen'
         TransButton:
             text: '[color=#98e0ef]50 random words[/color]'
             pos_hint: {'center_x': 0.5, 'center_y': 0.295}
             on_press: app.in_game_list = root.set_words_list(50)
-            on_release: app.root.current = "GameFieldScreen"
+            on_release: app.root.current = 'GameFieldScreen'
 
 <WordsChoosingScreen>:
     canvas.before:
@@ -154,7 +158,7 @@ ScreenManagement:
             font_size: '16px'
             font_name: 'Roboto-Bold'
             size_hint: (0.5, 0.075)
-            pos_hint: {"x": 0, "top": 1}
+            pos_hint: {'x': 0, 'top': 1}
         Label:
             canvas.before:
                 Color:
@@ -167,10 +171,10 @@ ScreenManagement:
             font_size: '16px'
             font_name: 'Roboto-Bold'
             size_hint: (0.5, 0.075)
-            pos_hint: {"x": 0.5, "top": 1}
+            pos_hint: {'x': 0.5, 'top': 1}
         ScrollView:
             size_hint: (0.5, 0.85)
-            pos_hint: {"x": 0, "top": 0.925}
+            pos_hint: {'x': 0, 'top': 0.925}
             GridLayout:
                 id: from_word
                 height: self.minimum_height
@@ -178,7 +182,7 @@ ScreenManagement:
                 cols: 1
         ScrollView:
             size_hint: (0.5, 0.85)
-            pos_hint: {"x": 0.5, "top": 0.925}
+            pos_hint: {'x': 0.5, 'top': 0.925}
             GridLayout:
                 id: to_word
                 height: self.minimum_height
@@ -186,9 +190,9 @@ ScreenManagement:
                 cols: 1
         BlueBottomButton:
             id: start_button
-            text: "[color=#d4dcd9][b]Let's go![/b][/color]"
+            text: '[color=#d4dcd9][b]Let\'s go![/b][/color]'
             on_release:
-                if root.set_words_list(root.choose_words()): app.root.current = "GameFieldScreen"; \
+                if root.set_words_list(root.choose_words()): app.root.current = 'GameFieldScreen'; \
                 app.in_game_list = root.set_words_list(root.choose_words());
 
 <GameFieldScreen>:
@@ -231,7 +235,7 @@ ScreenManagement:
             font_name: 'Roboto'
             halign: 'center'
             size_hint: (1, 0.1)
-            pos_hint: {"x": 0, "top": 1}
+            pos_hint: {'x': 0, 'top': 1}
             id: resolution
         Label:
             canvas.before:
@@ -246,10 +250,10 @@ ScreenManagement:
             font_name: 'Roboto-Bold'
             halign: 'center'
             size_hint: (1, 0.05)
-            pos_hint: {"x": 0, "top": 0.9}
+            pos_hint: {'x': 0, 'top': 0.9}
         ScrollView:
             size_hint: (1, 0.75)
-            pos_hint: {"x": 0, "top": 0.85}
+            pos_hint: {'x': 0, 'top': 0.85}
             GridLayout:
                 cols: 3
                 id: final_table
@@ -257,7 +261,7 @@ ScreenManagement:
                 size_hint_y: None
         GridLayout:
             size_hint: (1, 0.1)
-            pos_hint: {"x": 0, "top": 0.1}
+            pos_hint: {'x': 0, 'top': 0.1}
             cols: 2
             BlueBottomButton:
                 text: '[color=#d4dcd9][b]Once Again'
@@ -268,3 +272,10 @@ ScreenManagement:
                 size_hint: (0.5, 0.1)
                 background_color: [25/255.0, 61/255.0, 76/255.0, 1]
                 on_release: app.stop()
+
+<TrainingScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/background_dark.jpg'
