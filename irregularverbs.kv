@@ -231,8 +231,10 @@ ScreenManagement:
             source: 'img/background_dark.jpg'
     on_enter:
         root.output_data()
-        if len(root.wrong_answers) == 0: root.ids.train_button.disabled = True
-        else: root.ids.train_button.disabled = False
+        if len(root.wrong_answers) == 0: root.ids.train_button.disabled = True; \
+        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0}
+        else: root.ids.train_button.disabled = False; \
+        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0.9}
     FloatLayout:
         Label:
             markup: True
@@ -243,6 +245,7 @@ ScreenManagement:
             pos_hint: {'x': 0, 'top': 1}
             id: resolution
         Label:
+            id: wrong_answers_label
             canvas.before:
                 Color:
                     rgb: 0, 15/255.0, 15/255.0
