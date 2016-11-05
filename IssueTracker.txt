@@ -1,5 +1,5 @@
 Change the screen size when keyboard is shown - Open
-Add congrats view on FinalScreen - Open
+Add congrats view on FinalScreen - Done
 Hide 'Wrong answers' label when none are presented - Done
 Resize input for rus_eng mode - Done
 Add training mode and screen - Done
