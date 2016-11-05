@@ -7,6 +7,7 @@ import kivy
 from kivy.app import App
 from kivy.clock import mainthread
 from kivy.lang import Builder
+from kivy.graphics.vertex_instructions import Rectangle
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -158,6 +159,7 @@ def main():
                               markup=True,
                               align='bottom')
                 text_inp = TextInput(size_hint=(1, 0.025),
+                                     padding_x=[85, 6],
                                      bold=True,
                                      markup=True,
                                      id=name + '_text_inp',
@@ -309,7 +311,7 @@ def main():
         percent = 0
 
         def set_resolution(self, percent, common_noun):
-            resolution_text = '[color=98e0ef]You\'ve passed [b]{}%[/b] of words.\nYou are [b]{}[/b].[/color]' \
+            resolution_text = 'You\'ve passed [b]{}%[/b] of words.\nYou are [b]{}[/b].' \
                 .format(str(percent), common_noun)
             self.ids.resolution.text = resolution_text
 
@@ -399,6 +401,10 @@ def main():
                             self.ids.final_table.add_widget(label_3)
                             white_color = True
             program.ids.game_field_screen.saved_data = []
+
+        def change_background(self, path):
+            with self.canvas.before:
+                Rectangle(source=path, pos=self.pos, size=self.size)
 
         @staticmethod
         def reset():

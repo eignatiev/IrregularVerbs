@@ -203,8 +203,9 @@ ScreenManagement:
             source: 'img/background_dark.jpg'
     on_enter:
         root.in_game_list = app.in_game_list
-        saved_data = []
         root.add_items()
+        root.restore_but()
+        saved_data = []
     FloatLayout:
         Label:
             id: cur_word
@@ -224,25 +225,26 @@ ScreenManagement:
             on_release: root.next_word
 
 <FinalScreen>:
-    canvas.before:
-        Rectangle:
-            pos: self.pos
-            size: self.size
-            source: 'img/background_dark.jpg'
     on_enter:
         root.output_data()
         if len(root.wrong_answers) == 0: root.ids.train_button.disabled = True; \
-        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0}
+        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0}; \
+        root.change_background('img/pink.jpg'); \
+        root.ids.resolution.color = [49/255.0, 55/255.0, 232/255.0, 1]; \
+        root.ids.resolution.font_size = '18px'; \
+        root.ids.resolution.pos_hint = {'x': 0, 'top': 0.85}
         else: root.ids.train_button.disabled = False; \
-        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0.9}
+        root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0.9}; \
+        root.change_background('img/background_dark.jpg'); \
+        root.ids.resolution.color = [152/255.0, 224/255.0, 239/255.0, 1] ; \
+        root.ids.resolution.font_size = '14px' ; \
+        root.ids.resolution.pos_hint = {'x': 0, 'top': 1}
     FloatLayout:
         Label:
             markup: True
-            font_size: '14px'
             font_name: 'Roboto'
             halign: 'center'
             size_hint: (1, 0.1)
-            pos_hint: {'x': 0, 'top': 1}
             id: resolution
         Label:
             id: wrong_answers_label
