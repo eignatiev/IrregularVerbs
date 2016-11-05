@@ -203,6 +203,7 @@ ScreenManagement:
             source: 'img/background_dark.jpg'
     on_enter:
         root.in_game_list = app.in_game_list
+        saved_data = []
         root.add_items()
     FloatLayout:
         Label:
@@ -230,6 +231,8 @@ ScreenManagement:
             source: 'img/background_dark.jpg'
     on_enter:
         root.output_data()
+        if len(root.wrong_answers) == 0: root.ids.train_button.disabled = True
+        else: root.ids.train_button.disabled = False
     FloatLayout:
         Label:
             markup: True
@@ -262,6 +265,7 @@ ScreenManagement:
                 height: self.minimum_height
                 size_hint_y: None
         GridLayout:
+            id: gl
             size_hint: (1, 0.1)
             pos_hint: {'top': 0.1}
             cols: 3
@@ -270,10 +274,10 @@ ScreenManagement:
                 halign: 'center'
                 font_size: '14px'
                 on_release:
-                    final_table.clear_widgets()
-                    root.wrong_answers = []
+                    root.reset()
                     app.root.current = 'StartScreen'
             BlueBottomButton:
+                id: train_button
                 text: '[color=#d4dcd9][b]Train'
                 font_size: '14px'
                 background_color: [29/255.0, 71/255.0, 89/255.0, 1]

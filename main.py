@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import kivy
 
 from kivy.app import App
 from kivy.clock import mainthread
@@ -12,10 +13,13 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.togglebutton import ToggleButton
 from random import randint
 
+kivy.require('1.9.1')
+
 __version__ = '1.0'
 
 
 def main():
+
     class StartScreen(Screen):
         @staticmethod
         def initial_preparation(mode):
@@ -285,9 +289,12 @@ def main():
                     self.current_word_number = 0
                     self.true_percent = int(self.true_counter / (len(self.in_game_list) / 100.0))
                     self.true_counter = 0
-                    FinalScreen.percent = self.true_percent
+                    program.ids.final_screen.percent = self.true_percent
+                    program.ids.final_screen.in_game_list = self.in_game_list
+                    program.ids.final_screen.wrong_answers = []
+                    program.ids.final_screen.saved_data = self.saved_data
+                    self.saved_data = []
                     self.ids.game_field_layout.clear_widgets()
-                    FinalScreen.in_game_list = self.in_game_list
                     App.get_running_app().root.current = 'FinalScreen'
             else:
                 self.alert()
@@ -328,7 +335,6 @@ def main():
                     break
 
         def output_data(self):
-            self.saved_data = GameFieldScreen.saved_data
             self.add_result(self.percent)
             white_color = True
 
@@ -342,7 +348,6 @@ def main():
                 keys = ['is_correct1', 'is_correct2', 'is_correct3']
                 values = [answer[key] for key in keys]
                 return not all(values)
-
             if MODE == 'rus_eng':
                 for item in self.saved_data:
                     if is_wrong_answer(item):
@@ -400,7 +405,16 @@ def main():
                             label_3 = DarkerLabel(text=item['inputted'])
                             self.ids.final_table.add_widget(label_3)
                             white_color = True
-            GameFieldScreen.saved_data = []
+            program.ids.game_field_screen.saved_data = []
+
+        @staticmethod
+        def reset():
+            program.ids.game_mode_screen.in_game_words = []
+            program.ids.game_field_screen.in_game_list = []
+            program.ids.game_field_screen.saved_data = []
+            program.ids.final_screen.in_game_list = []
+            program.ids.final_screen.saved_data = []
+            program.ids.final_screen.wrong_answers = []
 
     class ScreenManagement(ScreenManager):
         pass

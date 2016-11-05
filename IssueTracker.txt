@@ -1,3 +1,5 @@
-Resize input for rus_eng mode - Done
 Change the screen size when keyboard is shown - Open
-Add training mode and screen - Open
+Add congrats view on FinalScreen - Open
+Add 'no wrong answers' label - Open
+Resize input for rus_eng mode - Done
+Add training mode and screen - Done
