@@ -6,6 +6,7 @@ import kivy
 
 from kivy.app import App
 from kivy.clock import mainthread
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.graphics.vertex_instructions import Rectangle
 from kivy.uix.textinput import TextInput
@@ -17,10 +18,12 @@ from random import randint
 kivy.require('1.9.1')
 
 __version__ = '1.0'
+__author__ = 'eignatiev'
 
 
 def main():
 
+    Window.softinput_mode = 'resize'
     in_game_list = []
 
     class StartScreen(Screen):
