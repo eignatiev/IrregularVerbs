@@ -7,6 +7,7 @@ import kivy
 from kivy.app import App
 from kivy.clock import mainthread
 from kivy.core.window import Window
+from kivy.core.text import LabelBase
 from kivy.lang import Builder
 from kivy.graphics.vertex_instructions import Rectangle
 from kivy.uix.textinput import TextInput
@@ -23,7 +24,14 @@ __author__ = 'eignatiev'
 
 def main():
 
-    Window.softinput_mode = 'resize'
+    LabelBase.register(name='Tahoma-Regular',
+                       fn_regular='fonts/Tahoma-Regular.ttf')
+    LabelBase.register(name='Tahoma-Bold',
+                       fn_regular='fonts/Tahoma-Bold.ttf')
+    LabelBase.register(name='Tahoma',
+                       fn_regular='fonts/Tahoma.ttf')
+
+    Window.softinput_mode = 'below_target'
     in_game_list = []
 
     class StartScreen(Screen):
@@ -422,12 +430,11 @@ def main():
     class ScreenManagement(ScreenManager):
         pass
 
-    program = Builder.load_file('irregularverbs.kv')
-
     class IrregularVerbsApp(App):
         def build(self):
             return program
 
+    program = Builder.load_file('irregularverbs.kv')
     IrregularVerbsApp().run()
 
 
