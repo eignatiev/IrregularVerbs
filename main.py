@@ -20,27 +20,20 @@ __version__ = '1.0'
 
 def main():
 
+    in_game_list = []
+
     class StartScreen(Screen):
         @staticmethod
         def initial_preparation(mode):
             """Preparing the tuple of lists with all the words
             :param mode: toggles between English and Russian"""
-            global MODE, WORDS, RUS_WORDS, ENG_WORDS
+            global MODE, WORDS
+            MODE = mode
             WORDS = tuple()
-            RUS_WORDS = list()
-            ENG_WORDS = list()
             with open('import.csv', 'r') as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     WORDS += (row,)
-            for i in range(len(WORDS)):
-                rus_text = WORDS[i]['Russian']
-                RUS_WORDS.append(rus_text)
-                eng_text = WORDS[i]['Simple']
-                ENG_WORDS.append(eng_text)
-            RUS_WORDS = tuple(RUS_WORDS)
-            ENG_WORDS = tuple(ENG_WORDS)
-            MODE = mode
 
     class GameModeScreen(Screen):
         in_game_words = []
@@ -409,6 +402,7 @@ def main():
 
         @staticmethod
         def reset():
+            program.in_game_list = []
             program.ids.game_mode_screen.in_game_words = []
             program.ids.game_field_screen.in_game_list = []
             program.ids.game_field_screen.saved_data = []

@@ -192,7 +192,7 @@ ScreenManagement:
             id: start_button
             text: '[color=#d4dcd9][b]Let\'s go![/b][/color]'
             on_release:
-                if root.set_words_list(root.choose_words()): app.root.current = 'GameFieldScreen'
+                if root.set_words_list(root.choose_words()): app.root.current = 'GameFieldScreen'; \
                 app.in_game_list = root.set_words_list(root.choose_words())
 
 <GameFieldScreen>:
