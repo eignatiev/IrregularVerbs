@@ -25,19 +25,19 @@ ScreenManagement:
         manager: screen_manager
 
 <BigButton@Button>:
-    font_size: '14px'
+    font_size: '14sp'
     size_hint: (1, 0.33)
 
 <TransButton@Button>:
     markup: True
-    font_size: '16px'
+    font_size: '16sp'
     font_name: 'Roboto-Bold'
     background_color: (0, 0, 0, 0.35)
     size_hint: (1, 0.08)
 
 <BlueBottomButton@Button>:
     markup: True
-    font_size: '20px'
+    font_size: '20sp'
     font_name: 'Tahoma-Bold'
     background_normal: ''
     background_color: [34/255.0, 82/255.0, 102/255.0, 1]
@@ -45,11 +45,11 @@ ScreenManagement:
     pos_hint: {'center_x': 0.5, 'y': 0}
 
 <FinalScreenLabel>:
-    height: '55px'
+    height: '55sp'
     size_hint_y: None
     color: (166, 166, 166, 1)
     markup: True
-    font_size: '12px'
+    font_size: '12sp'
     font_name: 'Tahoma'
     halign: 'center'
 
@@ -78,7 +78,7 @@ ScreenManagement:
     FloatLayout:
         Label:
             text: '[color=#d8d8d8]Welcome to the[/color]\n[color=98e0ef]IRREGULAR VERBS[/color]\n[color=d8d8d8]training app![/color]'
-            font_size: '20px'
+            font_size: '20sp'
             font_name: 'Tahoma-Bold'
             markup: True
             halign: 'center'
@@ -86,7 +86,7 @@ ScreenManagement:
             pos_hint: {'center_x': 0.5, 'center_y': 0.85}
         Label:
             text: 'Choose the game mode:'
-            font_size: '16px'
+            font_size: '16sp'
             font_name: 'Tahoma-Regular'
             markup: True
             size_hint: (None, None)
@@ -113,7 +113,7 @@ ScreenManagement:
     FloatLayout:
         Label:
             text: '[color=98e0ef]How many words?[/color]'
-            font_size: '20px'
+            font_size: '20sp'
             font_name: 'Tahoma-Bold'
             markup: True
             halign: 'center'
@@ -155,7 +155,7 @@ ScreenManagement:
                     size: self.size
             text: '[color=98e0ef]from:[/color]'
             markup: True
-            font_size: '16px'
+            font_size: '16sp'
             font_name: 'Roboto-Bold'
             size_hint: (0.5, 0.075)
             pos_hint: {'x': 0, 'top': 1}
@@ -168,7 +168,7 @@ ScreenManagement:
                     size: self.size
             text: '[color=98e0ef]to:[/color]'
             markup: True
-            font_size: '16px'
+            font_size: '16sp'
             font_name: 'Roboto-Bold'
             size_hint: (0.5, 0.075)
             pos_hint: {'x': 0.5, 'top': 1}
@@ -209,7 +209,7 @@ ScreenManagement:
     FloatLayout:
         Label:
             id: cur_word
-            font_size: 24
+            font_size: '24sp'
             halign: 'center'
             markup: True
             size_hint: (None, None)
@@ -231,13 +231,13 @@ ScreenManagement:
         root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0}; \
         root.change_background('img/pink.jpg'); \
         root.ids.resolution.color = [82/255.0, 70/255.0, 155/255.0, 1]; \
-        root.ids.resolution.font_size = '18px'; \
+        root.ids.resolution.font_size = '18sp'; \
         root.ids.resolution.pos_hint = {'x': 0, 'top': 0.85}
         else: root.ids.train_button.disabled = False; \
         root.ids.wrong_answers_label.pos_hint = {'x': 0, 'top': 0.9}; \
         root.change_background('img/background_dark.jpg'); \
         root.ids.resolution.color = [152/255.0, 224/255.0, 239/255.0, 1]; \
-        root.ids.resolution.font_size = '14px'; \
+        root.ids.resolution.font_size = '14sp'; \
         root.ids.resolution.pos_hint = {'x': 0, 'top': 1}
     FloatLayout:
         Label:
@@ -256,7 +256,7 @@ ScreenManagement:
                     size: self.size
             markup: True
             text: 'Wrong answers:'
-            font_size: '14px'
+            font_size: '14sp'
             font_name: 'Roboto-Bold'
             halign: 'center'
             size_hint: (1, 0.05)
@@ -277,14 +277,14 @@ ScreenManagement:
             BlueBottomButton:
                 text: '[color=#d4dcd9][b]Play\nAgain'
                 halign: 'center'
-                font_size: '14px'
+                font_size: '14sp'
                 on_release:
                     root.reset()
                     app.root.current = 'StartScreen'
             BlueBottomButton:
                 id: train_button
                 text: '[color=#d4dcd9][b]Train'
-                font_size: '14px'
+                font_size: '14sp'
                 background_color: [29/255.0, 71/255.0, 89/255.0, 1]
                 on_release:
                     final_table.clear_widgets()
@@ -292,6 +292,6 @@ ScreenManagement:
                     app.root.current = 'GameFieldScreen'
             BlueBottomButton:
                 text: '[color=#da7878][b]Exit'
-                font_size: '14px'
+                font_size: '14sp'
                 background_color: [25/255.0, 61/255.0, 76/255.0, 1]
                 on_release: app.stop()

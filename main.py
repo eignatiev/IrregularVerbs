@@ -121,10 +121,10 @@ def main():
                 from_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
                                        markup=True,
                                        size_hint_y=None,
-                                       font_size='12px',
+                                       font_size='12sp',
                                        font_name='Tahoma',
                                        halign='center',
-                                       height='50px',
+                                       height='50sp',
                                        background_down='',
                                        background_color=[212 / 255.0, 220 / 255.0, 217 / 255.0, 0.4],
                                        group=from_group,
@@ -132,10 +132,10 @@ def main():
                 to_button = MyButton(text='[color=#a6a6a6]{}[/color]'.format(text),
                                      markup=True,
                                      size_hint_y=None,
-                                     font_size='12px',
+                                     font_size='12sp',
                                      font_name='Tahoma',
                                      halign='center',
-                                     height='50px',
+                                     height='50sp',
                                      background_down='',
                                      background_color=[66 / 255.0, 80 / 255.0, 83 / 255.0, 0.8],
                                      group=to_group,
@@ -163,7 +163,7 @@ def main():
             for name in [n.lower() for n in names]:
                 label = Label(id=name + '_label',
                               size_hint=(1, 0.025),
-                              font_size='14px',
+                              font_size='14sp',
                               color=(120, 102, 102, 1),
                               font_name='Tahoma-Regular',
                               text='[color=e4cfcf]{}:[/color].'.format(name),
@@ -194,7 +194,7 @@ def main():
 
         def restore_but(self, *a):
             self.next_button.text = '[color=#d4dcd9][b]Next[/b][/color]'
-            self.next_button.font_size = '20px'
+            self.next_button.font_size = '20sp'
             self.next_button.background_normal = ''
             self.next_button.background_color = [34 / 255.0, 82 / 255.0, 102 / 255.0, 1]
 
@@ -281,7 +281,7 @@ def main():
 
         def alert(self):
             self.next_button.text = '[b]Fill all the blank fields![/b]'
-            self.next_button.font_size = '16px'
+            self.next_button.font_size = '16sp'
 
         def next_word(self, *a):
             if self.inputs_are_filled():
